@@ -1,8 +1,7 @@
 import glob
 import os
 
-from build_badges import main as build_badges_main
-from common import execute, local, project_dir
+from common import local, project_dir
 
 
 def check_usage(py_files):
@@ -13,7 +12,8 @@ def check_usage(py_files):
             print(f"Warning: {py_file} not linked")
 
 
-def update_examples():
+def main():
+    os.chdir(project_dir)
 
     rm_files = glob.glob("mkdocs/**/*.out", recursive=True) + glob.glob("mkdocs/**/*.src", recursive=True)
     for idx, rm_file in enumerate(rm_files):
@@ -36,16 +36,6 @@ def update_examples():
             f.write(out)
 
     local("touch mkdocs.yml")
-
-
-def main():
-    os.chdir(project_dir)
-
-    update_examples()
-
-    build_badges_main()
-    execute("mkdocs gh-deploy")
-    print("\n--\nOperation completed.")
 
 
 if __name__ == "__main__":
