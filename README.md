@@ -17,7 +17,7 @@ Manipulation and analysis of data series collections.
 
 ---
 
-* **Documentation**: [https://elehcimd.github.io/cumulative/license/](https://elehcimd.github.io/cumulative/)
+* **Documentation**: [https://elehcimd.github.io/cumulative/](https://elehcimd.github.io/cumulative/)
 * **Source code**: [https://github.com/elehcimd/cumulative](https://github.com/elehcimd/cumulative)
 
 ---

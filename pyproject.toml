@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cumulative"
-version = "0.0.22"
+version = "0.0.23"
 description = "Manipulation and analysis of data series collections"
 authors = ["Michele Dallachiesa <michele.dallachiesa@sigforge.com>"]
 license = "BSD-3"
