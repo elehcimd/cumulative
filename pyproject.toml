@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "cumulative"
-version = "0.0.17"
+version = "0.0.18"
 description = "Manipulation and analysis of data series collections"
 authors = ["Michele Dallachiesa <michele.dallachiesa@sigforge.com>"]
 license = "BSD-3"
 readme = "README.md"
-homepage = "https://github.com/elehcimd/cumulative"
+homepage = "https://elehcimd.github.io/cumulative/"
 repository = "https://github.com/elehcimd/cumulative"
 classifiers = [
     "Development Status :: 3 - Alpha",

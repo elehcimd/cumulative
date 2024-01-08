@@ -11,7 +11,7 @@ default_options = {
         "sequence": {"attributes": "attrs"},
         "fit": {"curve_fit": {"maxfev": 10000}},
     },
-    "doc": {"url": "https://github.com/elehcimd/cumulative"},
+    "doc": {"url": "https://elehcimd.github.io/cumulative/"},
 }
 
 
