@@ -13,15 +13,20 @@ from scipy.special import betainc
 
 from cumulative.options import options
 from cumulative.transforms.transform import Transform
+from cumulative.utils import warn
 
 log = logging.getLogger(__name__)
+
+
+class FitWarning(UserWarning):
+    pass
 
 
 class ExceptionInvalidMethod(Exception):
     pass
 
 
-def fit_xy_cdf(idx, x, y, distribution_name="beta", loc=0, scale=1, optimize_loc_scale=True):
+def fit_xy_cdf(idx, x, y, distribution_name="beta", loc=0, scale=1, optimize_loc_scale=True, map_params=None):
     # Seed the random number generator for reproducibility
     np.random.seed(options.get("reproducibility.random_seed"))
 
@@ -55,10 +60,14 @@ def fit_xy_cdf(idx, x, y, distribution_name="beta", loc=0, scale=1, optimize_loc
         )
 
     attrs = {}
-    attrs["model.params"] = popt
+    if map_params:
+        for k, v in zip(map_params, popt):
+            attrs[f"model.params.{k}"] = v
+    else:
+        attrs["model.params"] = popt
     attrs["model.name"] = "cdf"
     attrs["model.distribution"] = distribution_name
-    attrs["model.size"] = len(p0)
+    attrs["model.size"] = len(popt)
     return attrs, lambda x: cdf(x, *popt)
 
 
@@ -155,7 +164,11 @@ def fit_xy_pchip2(idx, x, y, k=1, max_combinations=1000, strict=True):
         if strict:
             raise RuntimeError(f"{__name__}: idx={idx}: too many combinations for k={k} ({n_combinations})")
         else:
-            log.warning(f"idx={idx}: too many combinations for k={k} ({n_combinations}), reducing to k={k - 1}")
+            warn(
+                f"idx={idx}: too many combinations for k={k} ({n_combinations}), reducing to k={k - 1}",
+                category=FitWarning,
+                stacklevel=1,
+            )
             return fit_xy_pchip2(idx, x, y, k=k - 1, max_combinations=max_combinations, strict=strict)
 
     # List of all subsets of indexes, including first and last, with k intermediate indexes
@@ -168,8 +181,10 @@ def fit_xy_pchip2(idx, x, y, k=1, max_combinations=1000, strict=True):
             raise RuntimeError(f"{__name__}: idx={idx}: not enough data points for k={k}")
         else:
             z = [list(range(x.shape[0]))]
-            log.warning(
-                f"sequence idx={idx} length is {x.shape[0]} and k={k} (not enough data points), falling back to z={z}"
+            warn(
+                f"sequence idx={idx} length is {x.shape[0]} and k={k} (not enough data points), falling back to z={z}",
+                category=FitWarning,
+                stacklevel=1,
             )
 
     # Let's find the best performing combination by testing them all.
@@ -330,24 +345,45 @@ def fit_xy_beta_pchip(idx, x, y, k=1, **kwargs):
     return attrs, model
 
 
-def fit_xy_betainc(idx, x, y, percentage=None):
+def fit_xy_betainc(idx, x, y, percentage=None, errors="raise", bounds=None):
 
     # Seed the random number generator for reproducibility
     np.random.seed(options.get("reproducibility.random_seed"))
 
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-        popt, _ = curve_fit(
-            lambda x, a, b: betainc(a, b, x),
-            tuple(x),
-            tuple(y),
-            check_finite=True,
-            nan_policy="raise",
-            method=None,
-            maxfev=options.get("transforms.fit.curve_fit.maxfev"),
-        )
-        a = popt[0]
-        b = popt[1]
+    if bounds is None:
+        # Set bounds to defaults as defined in curve_fit
+        bounds = (-np.inf, np.inf)
+
+    try:
+        # Handle the special case of all `y` values equal to a constant
+        # by raising an exception.
+        if len(set(y)) == 1:
+            raise RuntimeError("All y values are equal")
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            popt, _ = curve_fit(
+                lambda x, a, b: betainc(a, b, x),
+                tuple(x),
+                tuple(y),
+                check_finite=True,
+                nan_policy="raise",
+                method=None,
+                bounds=bounds,
+                maxfev=options.get("transforms.fit.curve_fit.maxfev"),
+            )
+            a = popt[0]
+            b = popt[1]
+    except RuntimeError as e:
+        if errors == "diagonal":
+            warn(
+                f'idx={idx}: Beta fit failed to converge and errors="diagonal", defaulting to a=1 b=1',
+                category=FitWarning,
+                stacklevel=1,
+            )
+            a = 1
+            b = 1
+        else:
+            raise e
 
     if percentage is not None:
         a = 1 + percentage * (a - 1)
@@ -364,11 +400,54 @@ def fit_xy_betainc(idx, x, y, percentage=None):
     return attrs, partial(betainc, a, b)
 
 
+def fit_xy_curvefit(idx, x, y, func=None, map_params=None, p0=None, bounds=None):
+
+    # Seed the random number generator for reproducibility
+    np.random.seed(options.get("reproducibility.random_seed"))
+
+    if func is None:
+
+        def func(x, a, b):
+            return betainc(a, b, x)
+
+    if bounds is None:
+        # Set bounds to defaults as defined in curve_fit
+        bounds = (-np.inf, np.inf)
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        popt, _ = curve_fit(
+            func,
+            tuple(x),
+            tuple(y),
+            check_finite=True,
+            nan_policy="raise",
+            method=None,
+            bounds=bounds,
+            p0=p0,
+            maxfev=options.get("transforms.fit.curve_fit.maxfev"),
+        )
+
+    attrs = {}
+    attrs["model.name"] = "curvefit"
+    attrs["model.func"] = func.__name__
+    if map_params:
+        for k, v in zip(map_params, popt):
+            attrs[f"model.params.{k}"] = v
+    else:
+        attrs["model.params"] = popt
+    attrs["model.size"] = len(popt)
+
+    return attrs, lambda x: func(x, *popt)
+
+
 def fit_xy(idx, x, y, method="betainc", **method_kwargs):  # noqa
 
     try:
         if method == "betainc":
             return fit_xy_betainc(idx, x, y, **method_kwargs)
+        if method == "curvefit":
+            return fit_xy_curvefit(idx, x, y, **method_kwargs)
         elif method == "cdf":
             return fit_xy_cdf(idx, x, y, **method_kwargs)
         elif method == "interp":
@@ -388,7 +467,7 @@ def fit_xy(idx, x, y, method="betainc", **method_kwargs):  # noqa
         else:
             raise ExceptionInvalidMethod(f"No valid method: '{method}'")
     except (RuntimeError, TypeError, ValueError) as e:
-        log.warning(f"{__name__}: idx={idx}: {e.__class__.__name__}: {e}")
+        warn(f"{__name__}: idx={idx}: {e.__class__.__name__}: {e}", category=FitWarning, stacklevel=1)
         attrs = {}
         attrs["model.name"] = method
         return attrs, lambda x: np.full(x.shape, np.nan)
@@ -411,6 +490,7 @@ class Fit(Transform):
         for prefix in ["error.abs", "error"]:
             # Calculate statistics on error distribution, absolute and signed residuals.
             attrs[f"{prefix}.mean"] = np.mean(attrs[f"{prefix}.y"])
+            attrs[f"{prefix}.sum"] = np.sum(attrs[f"{prefix}.y"])
             attrs[f"{prefix}.median"] = np.median(attrs[f"{prefix}.y"])
             attrs[f"{prefix}.std"] = attrs["x"][np.argmax(attrs["y"] > 0.75)]
             attrs[f"{prefix}.min"] = np.min(attrs[f"{prefix}.y"])

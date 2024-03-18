@@ -5,15 +5,17 @@ from cumulative.transforms.transform import Transform
 
 
 class Integrate(Transform):
-    def transform_row(self, row, src, normalize=True):
+    def transform_row(self, row, src, scale=False, fillna=False):
 
-        s = pd.Series(np.cumsum(row[f"{src}.y"]), index=row[f"{src}.x"])
+        s = pd.Series(np.cumsum(row[f"{src}.y"]), index=row[f"{src}.x"], copy=True)
 
         attrs = {}
 
-        if normalize:
+        if scale:
             s -= s.min()
             s /= s.max()
+            if fillna:
+                s = s.fillna(0)
 
         attrs["x"] = row[f"{src}.x"]
         attrs["y"] = s.values

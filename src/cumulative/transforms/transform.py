@@ -1,10 +1,10 @@
 import logging
 
-import numpy as np
 import pandas as pd
 from tqdm.auto import tqdm
 
 from cumulative.options import options
+from cumulative.utils import validate_frame
 
 log = logging.getLogger(__name__)
 
@@ -22,15 +22,14 @@ class Transform:
         return pd.Series()
 
     def __call__(self, **kwargs):
-        tqdm_params = options.get("tqdm.params")
+        tqdm_params = options.get("tqdm")
         tqdm_params["desc"] = self.name
         tqdm.pandas(**tqdm_params)
         # The destination prefix is not required/expected by row transforms,
         # let's drop it if present.
 
-        dst = options.default_if_null(kwargs.pop("dst", None), "transforms.destination")
-
         kwargs["src"] = options.default_if_null(kwargs.pop("src", None), "transforms.source")
+        dst = options.default_if_null(kwargs.pop("dst", None), "transforms.destination")
 
         df = self.apply(**kwargs)
 
@@ -47,7 +46,7 @@ class Transform:
         else:
             raise Exception("Invalid argument type")
 
-        self.validate(df)
+        validate_frame(df, f"Transform {self.name}")
 
         drop_cols = self.c.columns_with_prefix(dst, errors="ignore")
         self.c.df = self.c.df.drop(columns=drop_cols, errors="ignore")
@@ -59,22 +58,3 @@ class Transform:
 
     def apply(self, **kwargs):
         return self.c.df.progress_apply(lambda row: self.transform_row(row, **kwargs), axis=1)
-
-    def validate(self, df):
-        # Check for invalid values (nans, infs)
-        count_rows = len(df)
-        count_invalid_rows = df.isin([np.inf, -np.inf, np.nan]).any(axis=1).sum()
-        if count_invalid_rows > 0:
-            log.warning(
-                f"{self.name} produced {count_invalid_rows} ({count_invalid_rows / count_rows * 100:.0f}%)"
-                " invalid rows (nans or infs)"
-            )
-
-        if len(set(df.columns)) != len(df.columns):
-            log.warning(f"{self.name} produced duplicate column names")
-
-        if len(df.columns) == 0:
-            log.warning(f"{self.name} produced no columns")
-
-        if len(df) == 0:
-            log.warning(f"{self.name} produced no rows")

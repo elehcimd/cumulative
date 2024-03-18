@@ -35,4 +35,6 @@ class Cluster(Transform):
         y_hat = np.array(y_hat)
         # `y`: first row contains clustered y values
 
-        return pd.DataFrame({"x": self.c.df[f"{src}.x"], "y": pd.Series(y_hat.T.tolist(), index=self.c.df.index)})
+        return pd.DataFrame(
+            {"x": self.c.df[f"{src}.x"], "y": pd.Series(y_hat.T.tolist(), index=self.c.df.index)}, copy=True
+        )

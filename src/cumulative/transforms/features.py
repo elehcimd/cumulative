@@ -55,8 +55,21 @@ from cumulative.transforms.transform import Transform
 def feature_peaks(signal):
     attrs = {}
     peaks = scipy.signal.find_peaks(signal)
-    attrs["peaks_count"] = peaks[0].shape[0]
-    attrs["peaks_avg"] = signal[peaks[0]].mean() if attrs["peaks_count"] > 0 else 0
+    attrs["peaks.count"] = peaks[0].shape[0]
+
+    if peaks[0].shape[0] > 0:
+        peaks_prominence = scipy.signal.peak_prominences(signal, peaks[0])
+        peaks_width = scipy.signal.peak_widths(signal, peaks[0])
+        attrs["peaks.value.avg"] = signal[peaks[0]].mean()
+        attrs["peaks.prominence.avg"] = np.mean(peaks_prominence[0])
+        attrs["peaks.prominence.sum"] = np.sum(peaks_prominence[0])
+        attrs["peaks.width.avg"] = np.mean(peaks_width[0])
+    else:
+        attrs["peaks.value.avg"] = 0
+        attrs["peaks.prominence.avg"] = 0
+        attrs["peaks.prominence.sum"] = 0
+        attrs["peaks.width.avg"] = 0
+
     return attrs
 
 
@@ -95,51 +108,51 @@ def feature_tsfel(signal):
 
     fs = 1
     return {
-        "abs_energy": abs_energy(signal),
-        "auc": auc(signal, fs),
-        "autocorr": autocorr(signal),
-        "average_power": average_power(signal, fs),
-        "calc_centroid": calc_centroid(signal, fs),
-        "calc_max": calc_max(signal),
-        "calc_mean": calc_mean(signal),
-        "calc_median": calc_median(signal),
-        "calc_min": calc_min(signal),
-        "calc_std": calc_std(signal),
-        "calc_var": calc_var(signal),
-        "distance": distance(signal),
-        "entropy": entropy(signal),
-        "fundamental_frequency": fundamental_frequency(signal, fs),
-        "human_range_energy": human_range_energy(signal, fs),
-        "interq_range": interq_range(signal),
-        "kurtosis": kurtosis(signal),
-        "max_frequency": max_frequency(signal, fs),
-        "max_power_spectrum": max_power_spectrum(signal, fs),
-        "mean_abs_deviation": mean_abs_deviation(signal),
-        "mean_abs_diff": mean_abs_diff(signal),
-        "mean_diff": mean_diff(signal),
-        "median_abs_deviation": median_abs_deviation(signal),
-        "median_abs_diff": median_abs_diff(signal),
-        "median_diff": median_diff(signal),
-        "median_frequency": median_frequency(signal, fs),
-        "negative_turning": negative_turning(signal),
-        "neighbourhood_peaks": neighbourhood_peaks(signal),
-        "pk_pk_distance": pk_pk_distance(signal),
-        "positive_turning": positive_turning(signal),
-        "rms": rms(signal),
-        "skewness": skewness(signal),
-        "slope": slope(signal),
-        "spectral_centroid": spectral_centroid(signal, fs),
-        "spectral_decrease": spectral_decrease(signal, fs),
-        "spectral_distance": spectral_distance(signal, fs),
-        "spectral_entropy": spectral_entropy(signal, fs),
-        "spectral_kurtosis": spectral_kurtosis(signal, fs),
-        "spectral_positive_turning": spectral_positive_turning(signal, fs),
-        "spectral_skewness": spectral_skewness(signal, fs),
-        "spectral_slope": spectral_slope(signal, fs),
-        "spectral_spread": spectral_spread(signal, fs),
-        "spectral_variation": spectral_variation(signal, fs),
-        "sum_abs_diff": sum_abs_diff(signal),
-        "zero_cross": zero_cross(signal),
+        "tsfel_abs_energy": abs_energy(signal),
+        "tsfel_auc": auc(signal, fs),
+        "tsfel_autocorr": autocorr(signal),
+        "tsfel_average_power": average_power(signal, fs),
+        "tsfel_calc_centroid": calc_centroid(signal, fs),
+        "tsfel_calc_max": calc_max(signal),
+        "tsfel_calc_mean": calc_mean(signal),
+        "tsfel_calc_median": calc_median(signal),
+        "tsfel_calc_min": calc_min(signal),
+        "tsfel_calc_std": calc_std(signal),
+        "tsfel_calc_var": calc_var(signal),
+        "tsfel_distance": distance(signal),
+        "tsfel_entropy": entropy(signal),
+        "tsfel_fundamental_frequency": fundamental_frequency(signal, fs),
+        "tsfel_human_range_energy": human_range_energy(signal, fs),
+        "tsfel_interq_range": interq_range(signal),
+        "tsfel_kurtosis": kurtosis(signal),
+        "tsfel_max_frequency": max_frequency(signal, fs),
+        "tsfel_max_power_spectrum": max_power_spectrum(signal, fs),
+        "tsfel_mean_abs_deviation": mean_abs_deviation(signal),
+        "tsfel_mean_abs_diff": mean_abs_diff(signal),
+        "tsfel_mean_diff": mean_diff(signal),
+        "tsfel_median_abs_deviation": median_abs_deviation(signal),
+        "tsfel_median_abs_diff": median_abs_diff(signal),
+        "tsfel_median_diff": median_diff(signal),
+        "tsfel_median_frequency": median_frequency(signal, fs),
+        "tsfel_negative_turning": negative_turning(signal),
+        "tsfel_neighbourhood_peaks": neighbourhood_peaks(signal),
+        "tsfel_pk_pk_distance": pk_pk_distance(signal),
+        "tsfel_positive_turning": positive_turning(signal),
+        "tsfel_rms": rms(signal),
+        "tsfel_skewness": skewness(signal),
+        "tsfel_slope": slope(signal),
+        "tsfel_spectral_centroid": spectral_centroid(signal, fs),
+        "tsfel_spectral_decrease": spectral_decrease(signal, fs),
+        "tsfel_spectral_distance": spectral_distance(signal, fs),
+        "tsfel_spectral_entropy": spectral_entropy(signal, fs),
+        "tsfel_spectral_kurtosis": spectral_kurtosis(signal, fs),
+        "tsfel_spectral_positive_turning": spectral_positive_turning(signal, fs),
+        "tsfel_spectral_skewness": spectral_skewness(signal, fs),
+        "tsfel_spectral_slope": spectral_slope(signal, fs),
+        "tsfel_spectral_spread": spectral_spread(signal, fs),
+        "tsfel_spectral_variation": spectral_variation(signal, fs),
+        "tsfel_sum_abs_diff": sum_abs_diff(signal),
+        "tsfel_zero_cross": zero_cross(signal),
     }
 
 

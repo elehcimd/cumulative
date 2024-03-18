@@ -6,8 +6,13 @@ from tqdm.auto import tqdm
 
 from cumulative.options import options
 from cumulative.transforms.transform import Transform
+from cumulative.utils import warn
 
 log = logging.getLogger(__name__)
+
+
+class SequenceWarning(UserWarning):
+    pass
 
 
 class Sequence(Transform):
@@ -59,24 +64,31 @@ class Sequence(Transform):
                     "attributes": attrs_dict,
                 })
 
-        tqdm_params = options.get("tqdm.params")
+        tqdm_params = options.get("tqdm")
         tqdm_params["desc"] = "sequence"
         tqdm.pandas(**tqdm_params)
 
-        df = self.c.df_raw.sort_values(by=[self.x, self.y]).groupby(self.group_col).progress_apply(build_sequence)
+        if not isinstance(self.c.df_raw, pd.DataFrame):
+            raise RuntimeError("df_raw is not a valid Pandas DataFrame")
 
+        df = self.c.df_raw.sort_values(by=[self.x, self.y]).groupby(self.group_col).progress_apply(build_sequence)
         df = df.reset_index(names="name").reset_index(names="idx")
 
         if min_len:
             m = df["x"].apply(len) < min_len
             if m.sum() > 0:
-                log.warning(f"Ignoring {m.sum()} rows (filter: min_len={min_len})")
+                warn(f"Ignoring {m.sum()} rows (filter: min_len={min_len})", category=SequenceWarning, stacklevel=1)
                 df = df[~m]
 
         if min_nunique:
             m = df["y"].apply(lambda a: pd.Series(a).nunique()) < min_nunique
             if m.sum() > 0:
-                log.warning(f"Ignoring {m.sum()} rows (filter: min_nunique={min_nunique})")
+                warn(
+                    f"Ignoring {m.sum()} rows (filter: min_nunique={min_nunique})",
+                    category=SequenceWarning,
+                    stacklevel=1,
+                )
+
                 df = df[~m]
 
         if agg:

@@ -10,7 +10,7 @@ def local(args):
 
 
 def test_vulture():
-    assert local("vulture . vulture_whitelist.py") == ""
+    assert local("vulture src utils vulture_whitelist.py") == ""
 
 
 def test_ruff():

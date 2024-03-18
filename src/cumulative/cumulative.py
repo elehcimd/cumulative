@@ -4,6 +4,7 @@ import pandas as pd
 
 from cumulative.animation import Animation
 from cumulative.explore import Explore
+from cumulative.geometry import Geometry
 from cumulative.options import options
 from cumulative.plot import Plot
 from cumulative.transforms.bin import Bin
@@ -17,7 +18,6 @@ from cumulative.transforms.integrate import Integrate
 from cumulative.transforms.interp import Interp
 from cumulative.transforms.scale import Scale
 from cumulative.transforms.score import Score
-from cumulative.transforms.select import Select
 from cumulative.transforms.sequence import Sequence
 from cumulative.transforms.sort import Sort
 from cumulative.transforms.template import Template
@@ -52,11 +52,11 @@ class Cumulative:
         self.bin = Bin(self)
         self.drop = Drop(self)
         self.features = Features(self)
-        self.select = Select(self)
 
         self.plot = Plot(self)
         self.anim = Animation(self)
         self.explore = Explore(self)
+        self.geometry = Geometry(self)
 
     def explain(self) -> None:
         for idx, transform in list(enumerate(self.lineage))[::-1]:
@@ -80,7 +80,10 @@ class Cumulative:
             raise Exception(f"No matching columns for prefix '{prefix}'")
         return cols
 
-    def frame(self, src=None):
+    def frame(self, src=None, idx=None):
         src = options.default_if_null(src, "transforms.source")
         cols = self.columns_with_prefix(src)
-        return self.df[["idx"] + cols]
+        df = self.df[["idx"] + cols]
+        if idx:
+            df = df[df.idx == idx]
+        return df

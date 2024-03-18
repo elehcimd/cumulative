@@ -7,7 +7,7 @@ from cumulative.transforms.transform import Transform
 class Derivate(Transform):
     def transform_row(self, row, src):
 
-        s = pd.Series(np.gradient(row[f"{src}.y"]), index=row[f"{src}.x"])
+        s = pd.Series(np.gradient(row[f"{src}.y"]), index=row[f"{src}.x"], copy=True)
 
         attrs = {
             "x_min": s.index.min(),
