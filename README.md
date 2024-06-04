@@ -13,7 +13,7 @@
 
 ---
 
-**Cumulative** is an open source project and Python package that provides an intuitive in-memory interface to transform and analyse large collections of time series with composable pipelines.
+**Cumulative** is an open-source project and Python package that provides an in-memory interface to transform and analyze datasets of time series.
 
 ---
 

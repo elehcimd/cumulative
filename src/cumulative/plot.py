@@ -1,9 +1,31 @@
 import matplotlib
 import matplotlib as mpl
+import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
 from cumulative.options import options
+
+
+def supersmooth(x, k=0.5):
+    # useful to zoom-in (acceleration) close to 0 and 1 (tending to constant velocity at x=.5)
+    # [0,1] -> [0,1]
+    # k equal to .0: linear output, no transformation (no acceleration)
+    # k equal to .5: sinusoidal curve
+    # k close to 1: mostly at .5 (max acceleration close to 0 and 1)
+
+    k = max(k, 0)
+    k = min(k, 1 - 1e-5)
+
+    if k == 0:
+        return x
+
+    a = 2
+    b = -1
+    c = 0.5
+    d = 0.5
+    y = (1 - k) * (a * x + b) / (k - 2 * k * np.abs(a * x + b) + 1) * c + d
+    return y
 
 
 class Figure:
@@ -47,7 +69,9 @@ class Plot:
             self.c.plot.scatter(figure=figure, show=show, alpha=alpha, ms=ms, lw=lw, style=style)
             self.c.drop()
 
-    def heatmap(self, src=None, figure=None, show=True, ms=4, lw=1, k=60, score="idx", alpha_score=False, style="."):
+    def heatmap(
+        self, src=None, figure=None, show=True, ms=4, lw=1, k=60, score="idx", alpha=1, alpha_score=False, style="."
+    ):
         src = options.default_if_null(src, "transforms.source")
         tmp = options.get("transforms.tmp")
         tmp_score = f"{tmp}.score"
@@ -59,13 +83,15 @@ class Plot:
                 show=show,
                 ms=ms,
                 lw=lw,
-                alpha=1 if not alpha_score else tmp_score,
+                alpha=alpha * (1 if not alpha_score else tmp_score),
                 score=tmp_score,
                 style=style,
             )
             self.c.drop()
 
-    def highways(self, src=None, figure=None, show=True, score="idx", style="-", lw=1, ms=1, alpha_score=False):
+    def highways(
+        self, src=None, figure=None, show=True, score="idx", style="-", lw=1, ms=1, alpha=1, alpha_score=False
+    ):
         src = options.default_if_null(src, "transforms.source")
         tmp = options.get("transforms.tmp")
         tmp_score = f"{tmp}.score"
@@ -80,9 +106,14 @@ class Plot:
                 lw=lw,
                 ms=ms,
                 style=style,
-                alpha=1 if not alpha_score else tmp_score,
+                alpha=alpha if not alpha_score else tmp_score,
             )
             self.c.drop()
+
+    def highlights(self, src=None, figure=None, show=True, score="idx", style="-", lw=1, ms=1, alpha_score=False, k=8):
+        self.highways(
+            src=src, figure=figure, show=show, score=score, style=style, lw=lw, ms=ms, alpha_score=alpha_score
+        )
 
     def highlight(self, idx=None, src=None, figure=None, show=True):
 

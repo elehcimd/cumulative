@@ -19,7 +19,7 @@ class ExceptionScaler(Exception):
 class Scale(Transform):
     """
     MinMax normalizer on x,y axes to the unit interval [0,1].
-    If the sequence contains less than two distinct values, all values are set to 1.
+    If the sequence contains less than two distinct values, all values are set to `default_value`.
     """
 
     def transform_row(self, row, src, default_value=0):

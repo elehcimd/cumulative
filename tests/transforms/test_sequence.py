@@ -14,7 +14,19 @@ def test_default_fields():
     c = Cumulative(df_raw=df).sequence(group="id", x="x", y="y", dst="test")
 
     # Test expected fields
-    expected = ["idx", "test.name", "test.x", "test.y", "test.min", "test.max", "test.len", "test.sum"]
+    expected = [
+        "idx",
+        "test.name",
+        "test.x",
+        "test.y",
+        "test.min",
+        "test.max",
+        "test.len",
+        "test.sum",
+        "test.len_zero",
+        "test.len_negative",
+        "test.len_positive",
+    ]
     assert set(c.df.columns) == set(expected)
 
 

@@ -7,6 +7,7 @@ from cumulative.explore import Explore
 from cumulative.geometry import Geometry
 from cumulative.options import options
 from cumulative.plot import Plot
+from cumulative.transforms.apply import Apply
 from cumulative.transforms.bin import Bin
 from cumulative.transforms.cluster import Cluster
 from cumulative.transforms.copy import Copy
@@ -52,6 +53,7 @@ class Cumulative:
         self.bin = Bin(self)
         self.drop = Drop(self)
         self.features = Features(self)
+        self.apply = Apply(self)
 
         self.plot = Plot(self)
         self.anim = Animation(self)
@@ -87,3 +89,18 @@ class Cumulative:
         if idx:
             df = df[df.idx == idx]
         return df
+
+    def describe(self, src=None):
+        """
+        Print basic statistics about the collection in the `src` dimension.
+        """
+
+        def min_max_diff(s):
+            return f"min={s.min()} max={s.max()} diff={s.max() - s.min()}"
+
+        print(f"Count.......: {len(self.df)}")
+        print(f"Length......: {min_max_diff(self.df[f'{src}.len'])}")
+        print(f"Index min...: {min_max_diff(self.df[f'{src}.x'].apply(min))}")
+        print(f"Index max...: {min_max_diff(self.df[f'{src}.x'].apply(max))}")
+        print(f"Value min...: {min_max_diff(self.df[f'{src}.y'].apply(min))}")
+        print(f"Value max...: {min_max_diff(self.df[f'{src}.y'].apply(max))}")

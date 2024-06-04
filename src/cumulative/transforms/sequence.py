@@ -61,6 +61,9 @@ class Sequence(Transform):
                     "min": s.min(),
                     "max": s.max(),
                     "sum": s.sum(),
+                    "len_positive": s[s > 0].values.shape[0],
+                    "len_negative": s[s < 0].values.shape[0],
+                    "len_zero": s[s == 0].values.shape[0],
                     "attributes": attrs_dict,
                 })
 

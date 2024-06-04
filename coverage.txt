@@ -2,12 +2,13 @@ Name                                      Stmts   Miss  Cover
 -------------------------------------------------------------
 src/cumulative/__init__.py                    1      0   100%
 src/cumulative/animation.py                  36     23    36%
-src/cumulative/cumulative.py                 73     14    81%
+src/cumulative/cumulative.py                 84     22    74%
 src/cumulative/explore.py                    20     16    20%
 src/cumulative/geometry.py                   20     13    35%
 src/cumulative/options.py                    48      3    94%
-src/cumulative/plot.py                       85     69    19%
+src/cumulative/plot.py                       99     80    19%
 src/cumulative/transforms/__init__.py         0      0   100%
+src/cumulative/transforms/apply.py           14      4    71%
 src/cumulative/transforms/bin.py              8      3    62%
 src/cumulative/transforms/cluster.py         21     12    43%
 src/cumulative/transforms/copy.py             7      0   100%
@@ -27,4 +28,4 @@ src/cumulative/transforms/transition.py       7      3    57%
 src/cumulative/utils.py                      26      7    73%
 src/cumulative/version.py                     1      1     0%
 -------------------------------------------------------------
-TOTAL                                       843    471    44%
+TOTAL                                       882    494    44%

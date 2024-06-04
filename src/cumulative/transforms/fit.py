@@ -478,7 +478,7 @@ class Fit(Transform):
 
         attrs, func = fit_xy(row["idx"], row[f"{src}.x"], row[f"{src}.y"], method, **method_kwargs)
 
-        attrs["x"] = np.linspace(0, 1, num=n_samples, endpoint=True)
+        attrs["x"] = np.linspace(0, 1, num=n_samples)
         attrs["y"] = func(attrs["x"])
         attrs["y_scale"] = func(row[f"{src}.x"])
         attrs["error.y"] = attrs["y_scale"] - row[f"{src}.y"]
