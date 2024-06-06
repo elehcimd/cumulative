@@ -1,12 +1,19 @@
-site_name: CUMULATIVE
-site_description: Manipulation and analysis of data series collections.
-site_url: https://elehcimd.github.io/cumulative
+site_name: Cumulative
+site_description: Manipulate and visualize collections of time series data.
+site_url: https://elehcimd.github.io/cumulative/
 docs_dir: mkdocs/
 site_dir: dist/docs
-theme:
+theme: # https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/
   features:
-    - navigation.expand
+    - navigation.tracking
+    # - navigation.expand
+    #- navigation.top
+    #- toc.integrate
+    #- navigation.path
+    #- navigation.sections
+    - content.code.copy
     - search.highlight
+
   logo: assets/img/favicon-white.svg
   favicon: assets/img/favicon-black.svg
   name: material
@@ -29,7 +36,6 @@ repo_name: elehcimd/cumulative
 repo_url: https://github.com/elehcimd/cumulative
 edit_uri: ""
 
-
 # List of markdown extensions available by default:
 # https://python-markdown.github.io/extensions/
 markdown_extensions:
@@ -38,11 +44,15 @@ markdown_extensions:
 - admonition # Render call-outs like WARNING: , ... https://squidfunk.github.io/mkdocs-material/reference/admonitions/
 - mdx_include # Let .md files include lines from .py files
 - extra # The "extra" extension, handling tables, footnotes, definitions, ...: https://python-markdown.github.io/extensions/extra/
+- pymdownx.details
 - pymdownx.superfences: # Adding support for Mermaid.js diagrams: https://squidfunk.github.io/mkdocs-material/reference/diagrams/#usage
     custom_fences:
     - name: mermaid
       class: mermaid
       format: !!python/name:pymdownx.superfences.fence_code_format ''
+    - name: vegalite
+      class: vegalite
+      format: !!python/name:mkdocs_charts_plugin.fences.fence_vegalite
 - pymdownx.tabbed:
     alternate_style: true
 - pymdownx.highlight: # Code highlighting inside code blocks
@@ -54,30 +64,33 @@ markdown_extensions:
 # Documentation on code blocks: https://squidfunk.github.io/mkdocs-material/reference/code-blocks/
 - pymdownx.tasklist:
     custom_checkbox: true
-
+      
 nav:
   - index.md
-  - Become a sponsor ❤️: sponsor.md
+  - Become a sponsor: sponsor.md
   - License: license.md
+  - Citing: cite.md
   
-
 plugins:
     - search # If you are creating the plugins entry in your config file, you should also insert a line for the search plugin.
     - macros:
         module_name: mkdocs/mymacros
         #on_error_fail: true
     - mkdocstrings
+    - charts # mkdocs-charts-plugin
+    - blog:
+        pagination_per_page: 1
 
 extra_css:
 - assets/css/custom.css
-- https://s.pageclip.co/v1/pageclip.css          
 
 extra_javascript:
-- assets/js/custom.js
-- https://s.pageclip.co/v1/pageclip.js
+  - assets/js/custom.js
+  - https://cdn.jsdelivr.net/npm/vega@5 # mkdocs-charts-plugin
+  - https://cdn.jsdelivr.net/npm/vega-lite@5 # mkdocs-charts-plugin
+  - https://cdn.jsdelivr.net/npm/vega-embed@6 # mkdocs-charts-plugin
 
-copyright: Copyright © 2023 - 2024 Michele Dallachiesa
-
+copyright: Copyright © 2022 - 2024 Michele Dallachiesa
 
 extra:
   social:

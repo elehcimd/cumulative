@@ -22,7 +22,7 @@ class Geometry:
         self.c = c
 
     def intersects(self, src=None, x_min=None, x_max=None, y_min=None, y_max=None):
-        src = options.default_if_null(src, "transforms.source")
+        src = options().default_if_null(src, "transforms.source")
         matches = self.c.df.apply(
             lambda row: intersects(row[f"{src}.x"], row[f"{src}.y"], x_min, x_max, y_min, y_max), axis=1
         )

@@ -54,20 +54,22 @@ class Sequence(Transform):
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore", category=RuntimeWarning)
 
-                return pd.Series({
-                    "x": s.index.values,
-                    "y": s.values,
-                    "len": s.values.shape[0],
-                    "min": s.min(),
-                    "max": s.max(),
-                    "sum": s.sum(),
-                    "len_positive": s[s > 0].values.shape[0],
-                    "len_negative": s[s < 0].values.shape[0],
-                    "len_zero": s[s == 0].values.shape[0],
-                    "attributes": attrs_dict,
-                })
+                return pd.Series(
+                    {
+                        "x": s.index.values,
+                        "y": s.values,
+                        "len": s.values.shape[0],
+                        "min": s.min(),
+                        "max": s.max(),
+                        "sum": s.sum(),
+                        "len_positive": s[s > 0].values.shape[0],
+                        "len_negative": s[s < 0].values.shape[0],
+                        "len_zero": s[s == 0].values.shape[0],
+                        "attributes": attrs_dict,
+                    }
+                )
 
-        tqdm_params = options.get("tqdm")
+        tqdm_params = options().get("tqdm")
         tqdm_params["desc"] = "sequence"
         tqdm.pandas(**tqdm_params)
 
@@ -95,7 +97,7 @@ class Sequence(Transform):
                 df = df[~m]
 
         if agg:
-            prefix = f"{options.get('transforms.sequence.attributes')}."
+            prefix = f"{options().get('transforms.sequence.attributes')}."
             df = pd.concat([df, pd.json_normalize(df["attributes"]).add_prefix(prefix)], axis=1)
 
         df = df.drop(columns=["attributes"])

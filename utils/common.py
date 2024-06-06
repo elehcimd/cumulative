@@ -1,21 +1,22 @@
 import os
 import subprocess
+from typing import List
 
 project_dir = os.path.abspath(os.path.dirname(__file__) + os.sep + os.pardir)
 project_name = os.path.basename(project_dir)
 
 
-def execute(cmd):
+def local(args: List[str] | str) -> str:
+    cmd = " ".join(args) if isinstance(args, list) else args
+    return subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True).decode("utf-8")  # noqa
+
+
+def execute(cmd: str):
     print(f"Executing: {cmd}")
     assert os.system(cmd) == 0  # noqa
 
 
-def local(args):
-    cmd = " ".join(args) if isinstance(args, list) is list else args
-    return subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True).decode("utf-8")  # noqa
-
-
-def get_package_version(pathname):
+def get_package_version(pathname: str) -> str:
     section_match = False
     with open(pathname, "rb") as f:
         for line in f.readlines():

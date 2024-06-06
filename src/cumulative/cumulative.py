@@ -83,7 +83,7 @@ class Cumulative:
         return cols
 
     def frame(self, src=None, idx=None):
-        src = options.default_if_null(src, "transforms.source")
+        src = options().default_if_null(src, "transforms.source")
         cols = self.columns_with_prefix(src)
         df = self.df[["idx"] + cols]
         if idx:
