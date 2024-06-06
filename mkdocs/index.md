@@ -8,15 +8,15 @@ hide:
 #
 
 <p align="center">
-  <img height="75%" width="75%" src="assets/img/logo-wide-black.svg#only-light" alt="MLtraq">
-  <img height="75%" width="75%" src="assets/img/logo-wide-white.svg#only-dark" alt="MLtraq">
+  <img height="75%" width="75%" src="assets/img/logo-wide-black.svg#only-light" alt="Cumulative">
+  <img height="75%" width="75%" src="assets/img/logo-wide-white.svg#only-dark" alt="Cumulative">
 </p>
 
 <p align="center">
 <img src="/cumulative/assets/img/badges/test.svg" alt="Test">
 <img src="/cumulative/assets/img/badges/coverage.svg" alt="Coverage">
 <img src="/cumulative/assets/img/badges/python.svg" alt="Python">
-<a href="https://pypi.org/project/mltraq/"><img src="/cumulative/assets/img/badges/pypi.svg" alt="PyPi"></a>
+<a href="https://pypi.org/project/cumulative/"><img src="/cumulative/assets/img/badges/pypi.svg" alt="PyPi"></a>
 <a href="/license"><img src="/cumulative/assets/img/badges/license.svg" alt="License"></a>
 <img src="/cumulative/assets/img/badges/code-style.svg" alt="Code style">
 </p>
