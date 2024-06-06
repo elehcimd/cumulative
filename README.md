@@ -22,10 +22,6 @@ An open-source Python library for Data Scientists to efficiently manipulate coll
 ---
 
 * **Documentation**: [https://elehcimd.github.io/cumulative](https://elehcimd.github.io/cumulative)
-* **Source code**: [https://github.com/elehcimd/cumulative](https://github.com/elehcimd/cumulative)
-
-
-* **Documentation**: [https://elehcimd.github.io/cumulative](https://elehcimd.github.io/cumulative)
 * **Source code**: [https://github.com/elehcimd/cumulative](https://github.com/elehcimd/cumulative) (License: [BSD 3-Clause](https://elehcimd.github.io/cumulative/license/))
 * **Discussions**: [Ask questions, share ideas, engage](https://github.com/elehcimd/cumulative/discussions)
 * **Funding**: You can [star](https://github.com/elehcimd/cumulative) the project on GitHub and [hire me](https://www.linkedin.com/in/dallachiesa/) to make sense of your time series.
