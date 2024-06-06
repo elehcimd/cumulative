@@ -4,8 +4,10 @@ import pandas as pd
 
 from cumulative.animation import Animation
 from cumulative.explore import Explore
+from cumulative.geometry import Geometry
 from cumulative.options import options
 from cumulative.plot import Plot
+from cumulative.transforms.apply import Apply
 from cumulative.transforms.bin import Bin
 from cumulative.transforms.cluster import Cluster
 from cumulative.transforms.copy import Copy
@@ -17,7 +19,6 @@ from cumulative.transforms.integrate import Integrate
 from cumulative.transforms.interp import Interp
 from cumulative.transforms.scale import Scale
 from cumulative.transforms.score import Score
-from cumulative.transforms.select import Select
 from cumulative.transforms.sequence import Sequence
 from cumulative.transforms.sort import Sort
 from cumulative.transforms.template import Template
@@ -52,11 +53,12 @@ class Cumulative:
         self.bin = Bin(self)
         self.drop = Drop(self)
         self.features = Features(self)
-        self.select = Select(self)
+        self.apply = Apply(self)
 
         self.plot = Plot(self)
         self.anim = Animation(self)
         self.explore = Explore(self)
+        self.geometry = Geometry(self)
 
     def explain(self) -> None:
         for idx, transform in list(enumerate(self.lineage))[::-1]:
@@ -80,7 +82,25 @@ class Cumulative:
             raise Exception(f"No matching columns for prefix '{prefix}'")
         return cols
 
-    def frame(self, src=None):
+    def frame(self, src=None, idx=None):
         src = options.default_if_null(src, "transforms.source")
         cols = self.columns_with_prefix(src)
-        return self.df[["idx"] + cols]
+        df = self.df[["idx"] + cols]
+        if idx:
+            df = df[df.idx == idx]
+        return df
+
+    def describe(self, src=None):
+        """
+        Print basic statistics about the collection in the `src` dimension.
+        """
+
+        def min_max_diff(s):
+            return f"min={s.min()} max={s.max()} diff={s.max() - s.min()}"
+
+        print(f"Count.......: {len(self.df)}")
+        print(f"Length......: {min_max_diff(self.df[f'{src}.len'])}")
+        print(f"Index min...: {min_max_diff(self.df[f'{src}.x'].apply(min))}")
+        print(f"Index max...: {min_max_diff(self.df[f'{src}.x'].apply(max))}")
+        print(f"Value min...: {min_max_diff(self.df[f'{src}.y'].apply(min))}")
+        print(f"Value max...: {min_max_diff(self.df[f'{src}.y'].apply(max))}")

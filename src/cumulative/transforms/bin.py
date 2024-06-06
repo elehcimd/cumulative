@@ -9,4 +9,4 @@ class Bin(Transform):
 
         y_bins = np.linspace(0, 1, num=n_bins)
         y_hat = y_bins[np.searchsorted(y_bins, row[f"{src}.y"])]
-        return pd.Series({"x": row[f"{src}.x"], "y": y_hat})
+        return pd.Series({"x": row[f"{src}.x"], "y": y_hat}, copy=True)

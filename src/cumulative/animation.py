@@ -20,7 +20,7 @@ class Animation:
 
         mpl.rcParams["animation.embed_limit"] = 2**128
 
-        pbar = tqdm(total=100, desc="animation", **options.get("tqdm.params"))
+        pbar = tqdm(total=100, desc="animation", **options.get("tqdm"))
 
         def init_func():
             # We pass to FuncAnimation this empty init function to not call the expensive draw_frame.

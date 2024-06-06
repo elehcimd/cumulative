@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "cumulative"
-version = "0.0.15"
+version = "0.0.30"
 description = "Manipulation and analysis of data series collections"
 authors = ["Michele Dallachiesa <michele.dallachiesa@sigforge.com>"]
 license = "BSD-3"
 readme = "README.md"
-homepage = "https://github.com/elehcimd/cumulative"
+homepage = "https://elehcimd.github.io/cumulative/"
 repository = "https://github.com/elehcimd/cumulative"
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -18,19 +18,20 @@ include = [
 
 [tool.poetry.dependencies]
 python = ">=3.10.0"
-tqdm = "^4.66.1"
-pandas = "^2.1.3"
-scipy = "^1.11.4"
-scikit-learn = "^1.3.2"
-matplotlib = "^3.8.2"
-ipywidgets = "^8.1.1"
-statsmodels = "^0.14.1"
-tsfel = "^0.1.6"
+tqdm = ">=4.66.1"
+pandas = ">=1.5.3"
+scipy = ">=1.11.4"
+scikit-learn = ">=1.2.2"
+matplotlib = ">=3.7.1"
+statsmodels = ">=0.14.1"
+tsfel = ">=0.1.6"
+tabulate = "^0.9.0"
 
 [tool.poetry.extras]
 
 [tool.poetry.group.dev.dependencies]
 jupyterlab = "^4.0.9"
+ipywidgets = ">=7.1.1"
 flake8 = "^6.1.0"
 pytest = "^7.4.3"
 black = {extras = ["jupyter"], version = "^23.12.0"}
@@ -43,8 +44,6 @@ mkdocs-macros-plugin = "^1.0.5"
 pymdown-extensions = "^10.7"
 mdx-include = "^1.4.2"
 mkdocstrings = "^0.24.0"
-pyright = "^1.1.344"
-mypy = "^1.8.0"
 vulture = "^2.10"
 
 
@@ -68,3 +67,6 @@ exclude = ["vulture_whitelist.py"]
 [tool.vulture]
 make_whitelist = true
 exclude = ["local"]
+
+[tool.pytest.ini_options]
+filterwarnings = ["ignore::DeprecationWarning:pandas.*:"]

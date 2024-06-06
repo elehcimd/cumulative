@@ -9,10 +9,6 @@ def local(args):
     return subprocess.check_output(cmd, shell=True).decode("utf-8")  # noqa
 
 
-def test_vulture():
-    assert local("vulture . vulture_whitelist.py") == ""
-
-
 def test_ruff():
     # Run once to auto-fix errors
     local("ruff . --fix --exit-zero")

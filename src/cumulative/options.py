@@ -3,15 +3,16 @@ from contextlib import contextmanager
 
 default_options = {
     "reproducibility": {"random_seed": 123},
-    "tqdm": {"params": {"disable": False, "leave": False, "delay": 0}},
+    "tqdm": {"disable": False, "leave": False, "delay": 0},
     "transforms": {
         "destination": "base",
         "source": "base",
-        "tmp": "tmp",
+        "tmp": "temp",
         "sequence": {"attributes": "attrs"},
         "fit": {"curve_fit": {"maxfev": 10000}},
     },
-    "doc": {"url": "https://github.com/elehcimd/cumulative"},
+    "warnings": {"disable": True},
+    "doc": {"url": "https://elehcimd.github.io/cumulative/"},
 }
 
 
@@ -52,10 +53,12 @@ class Options:
             d = d.setdefault(step, {})
         d[last] = value
 
+    def copy_from(self, options):
+        self.options = copy.deepcopy(options)
+
     def reset(self, path=None):
         if path is None:
-            self.options = copy.deepcopy(default_options)
-            return
+            return self.copy_from(default_options)
 
         steps = path.split(".")
         d = default_options

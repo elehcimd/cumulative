@@ -3,8 +3,13 @@ import logging
 import pandas as pd
 
 from cumulative.transforms.transform import Transform
+from cumulative.utils import warn
 
 log = logging.getLogger(__name__)
+
+
+class ScaleWarning(UserWarning):
+    pass
 
 
 class ExceptionScaler(Exception):
@@ -14,15 +19,13 @@ class ExceptionScaler(Exception):
 class Scale(Transform):
     """
     MinMax normalizer on x,y axes to the unit interval [0,1].
-    If the sequence contains less than two distinct values, all values are set to 1.
+    If the sequence contains less than two distinct values, all values are set to `default_value`.
     """
 
-    def transform_row(self, row, src):
+    def transform_row(self, row, src, default_value=0):
 
-        s = pd.Series(row[f"{src}.y"], index=row[f"{src}.x"])
-
-        if len(s) == 0:
-            raise ExceptionScaler(f"idx={row['idx']}: series length is zero")
+        idx = row["idx"]
+        s = pd.Series(row[f"{src}.y"], index=row[f"{src}.x"], copy=True)
 
         attrs = {
             "x_min": s.index.min(),
@@ -31,20 +34,38 @@ class Scale(Transform):
             "y_max": s.max(),
         }
 
-        if len(s) == 1:
-            log.warning(f"idx={row['idx']}: series length is below 2 (normalized to unit)")
-            # Using 1 as default normalised value, to have integrals summing up to 1.
-            s[:] = 1
-        elif s.nunique() < 2:
-            log.warning(f"idx={row['idx']}: series contains less than 2 distinct values (normalized to unit)")
-            # Using 1 as default normalised value, to have integrals summing up to 1.
-            s[:] = 1
-        else:
-            s = s - s.min()
-            s = s / s.max()
+        if s.shape[0] == 0:
+            raise ExceptionScaler(f"idx={idx}: Length is zero")
 
-        s.index -= s.index.min()
-        s.index /= s.index.max()
+        if s.shape[0] == 1:
+            warn(
+                f"idx={idx}: Length equal to 1, defaulting `y` to {default_value}", category=ScaleWarning, stacklevel=1
+            )
+            s[:] = default_value
+        elif s.nunique() < 2:
+            warn(
+                f"idx={idx}: Less than 2 distinct `y` values, defaulting `y` to {default_value}",
+                category=ScaleWarning,
+                stacklevel=1,
+            )
+            s[:] = default_value
+        else:
+            s -= s.min()
+            s /= s.max()
+
+        if s.shape[0] == 1:
+            warn(f"idx={idx}: Length equal to 1, defaulting `x` to zero", category=ScaleWarning, stacklevel=1)
+            s.index = [0]
+        else:
+            if s.index.nunique() < 2:
+                warn(
+                    f"idx={idx}: Less than 2 distinct `x` values, defaulting to [0,1,...]/N",
+                    category=ScaleWarning,
+                    stacklevel=1,
+                )
+                s = s.reset_index(drop=True)
+            s.index -= s.index.min()
+            s.index /= s.index.max()
 
         attrs = {
             **attrs,

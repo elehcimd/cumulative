@@ -37,8 +37,6 @@ def main():
 
     local("touch mkdocs.yml")
 
-    print("Operation completed.")
-
 
 if __name__ == "__main__":
     main()
