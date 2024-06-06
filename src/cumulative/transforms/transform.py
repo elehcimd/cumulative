@@ -22,14 +22,14 @@ class Transform:
         return pd.Series()
 
     def __call__(self, **kwargs):
-        tqdm_params = options.get("tqdm")
+        tqdm_params = options().get("tqdm")
         tqdm_params["desc"] = self.name
         tqdm.pandas(**tqdm_params)
         # The destination prefix is not required/expected by row transforms,
         # let's drop it if present.
 
-        kwargs["src"] = options.default_if_null(kwargs.pop("src", None), "transforms.source")
-        dst = options.default_if_null(kwargs.pop("dst", None), "transforms.destination")
+        kwargs["src"] = options().default_if_null(kwargs.pop("src", None), "transforms.source")
+        dst = options().default_if_null(kwargs.pop("dst", None), "transforms.destination")
 
         df = self.apply(**kwargs)
 

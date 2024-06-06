@@ -7,16 +7,18 @@ from cumulative.transforms.transform import Transform
 
 def test_dst():
 
-    df = pd.DataFrame({
-        "id": [1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-        "x": [0, 1, 2, 3, 4, 0, 1, 2, 3, 4],
-        "y": [10, 20, 30, 40, 50, 100, 200, 300, 400, 500],
-    })
+    df = pd.DataFrame(
+        {
+            "id": [1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            "x": [0, 1, 2, 3, 4, 0, 1, 2, 3, 4],
+            "y": [10, 20, 30, 40, 50, 100, 200, 300, 400, 500],
+        }
+    )
 
     c = Cumulative(df_raw=df).sequence(group="id", x="x", y="y")
 
     # Test default destination of transforms
-    assert f"{options.get('transforms.destination')}.x" in c.df.columns
+    assert f"{options().get('transforms.destination')}.x" in c.df.columns
 
     # Test default source of transforms
     # Test custom destination of transforms
@@ -30,11 +32,13 @@ def test_dst():
 
 def test_register_transform():
 
-    df = pd.DataFrame({
-        "id": [1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-        "x": [0, 1, 2, 3, 4, 0, 1, 2, 3, 4],
-        "y": [10, 20, 30, 40, 50, 100, 200, 300, 400, 500],
-    })
+    df = pd.DataFrame(
+        {
+            "id": [1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            "x": [0, 1, 2, 3, 4, 0, 1, 2, 3, 4],
+            "y": [10, 20, 30, 40, 50, 100, 200, 300, 400, 500],
+        }
+    )
 
     c = Cumulative(df_raw=df).sequence(group="id", x="x", y="y")
 

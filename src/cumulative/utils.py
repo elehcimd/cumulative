@@ -57,5 +57,5 @@ def validate_frame(df, warning_prefix):
 
 
 def warn(*args, stacklevel=1, **kwargs):
-    if not options.get("warnings.disable"):
+    if not options().get("warnings.disable"):
         warnings.warn(*args, stacklevel=stacklevel, **kwargs)

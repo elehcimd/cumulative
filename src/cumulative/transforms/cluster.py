@@ -14,7 +14,7 @@ class Cluster(Transform):
 
         # Seed the random number generator for reproducibility
 
-        np.random.seed(options.get("reproducibility.random_seed"))
+        np.random.seed(options().get("reproducibility.random_seed"))
 
         # `k`: number of clusters to learn at each idx position
 

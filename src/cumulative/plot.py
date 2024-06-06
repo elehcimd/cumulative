@@ -62,9 +62,9 @@ class Plot:
         self.c = c
 
     def xrays(self, src=None, figure=None, show=True, alpha=1, ms=1, lw=1, k=60, style="."):
-        src = options.default_if_null(src, "transforms.source")
-        tmp = options.get("transforms.tmp")
-        with options.option_context({"transforms": {"source": tmp, "destination": tmp}}):
+        src = options().default_if_null(src, "transforms.source")
+        tmp = options().get("transforms.tmp")
+        with options().option_context({"transforms": {"source": tmp, "destination": tmp}}):
             self.c.fit(src=src, method="pchip3", k=k, n_samples=k)
             self.c.plot.scatter(figure=figure, show=show, alpha=alpha, ms=ms, lw=lw, style=style)
             self.c.drop()
@@ -72,10 +72,10 @@ class Plot:
     def heatmap(
         self, src=None, figure=None, show=True, ms=4, lw=1, k=60, score="idx", alpha=1, alpha_score=False, style="."
     ):
-        src = options.default_if_null(src, "transforms.source")
-        tmp = options.get("transforms.tmp")
+        src = options().default_if_null(src, "transforms.source")
+        tmp = options().get("transforms.tmp")
         tmp_score = f"{tmp}.score"
-        with options.option_context({"transforms": {"source": tmp, "destination": tmp}}):
+        with options().option_context({"transforms": {"source": tmp, "destination": tmp}}):
             self.c.fit(src=src, method="pchip3", k=k, n_samples=k)
             self.c.score(src=score, dst=tmp_score).sort(by=tmp_score)
             self.c.plot.scatter(
@@ -92,10 +92,10 @@ class Plot:
     def highways(
         self, src=None, figure=None, show=True, score="idx", style="-", lw=1, ms=1, alpha=1, alpha_score=False
     ):
-        src = options.default_if_null(src, "transforms.source")
-        tmp = options.get("transforms.tmp")
+        src = options().default_if_null(src, "transforms.source")
+        tmp = options().get("transforms.tmp")
         tmp_score = f"{tmp}.score"
-        with options.option_context({"transforms": {"source": tmp, "destination": tmp}}):
+        with options().option_context({"transforms": {"source": tmp, "destination": tmp}}):
             # TODO: move sort to internals of scatter(), without sorting c.df
             self.c.score(src=score, dst=tmp_score).sort(by=tmp_score)
             self.c.plot.scatter(
@@ -144,9 +144,9 @@ class Plot:
             )
 
     def pixelate(self, src=None, figure=None, show=True, k=30, alpha=0.05, ms=5, style="s"):
-        src = options.default_if_null(src, "transforms.source")
-        tmp = options.get("transforms.tmp")
-        with options.option_context({"transforms": {"source": tmp, "destination": tmp}}):
+        src = options().default_if_null(src, "transforms.source")
+        tmp = options().get("transforms.tmp")
+        with options().option_context({"transforms": {"source": tmp, "destination": tmp}}):
             self.c.interp(n_samples=k, src=src)
             self.c.bin(n_bins=k)
             self.c.fit(method="pchip3", k=k, n_samples=k)
@@ -168,7 +168,7 @@ class Plot:
         color="white",
     ):
 
-        src = options.default_if_null(src, "transforms.source")
+        src = options().default_if_null(src, "transforms.source")
 
         if figure is None:
             figure = Figure(x_label=x_label, y_label=y_label)

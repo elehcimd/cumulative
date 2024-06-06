@@ -28,7 +28,7 @@ class ExceptionInvalidMethod(Exception):
 
 def fit_xy_cdf(idx, x, y, distribution_name="beta", loc=0, scale=1, optimize_loc_scale=True, map_params=None):
     # Seed the random number generator for reproducibility
-    np.random.seed(options.get("reproducibility.random_seed"))
+    np.random.seed(options().get("reproducibility.random_seed"))
 
     distribution = getattr(st, distribution_name)
 
@@ -56,7 +56,7 @@ def fit_xy_cdf(idx, x, y, distribution_name="beta", loc=0, scale=1, optimize_loc
             check_finite=True,
             nan_policy="raise",
             p0=p0,
-            maxfev=options.get("transforms.fit.curve_fit.maxfev"),
+            maxfev=options().get("transforms.fit.curve_fit.maxfev"),
         )
 
     attrs = {}
@@ -97,7 +97,7 @@ def fit_xy_pchip0(idx, x, y):
     # https://stackoverflow.com/questions/14461346/python-pchip-warnings
 
     # Seed the random number generator for reproducibility
-    np.random.seed(options.get("reproducibility.random_seed"))
+    np.random.seed(options().get("reproducibility.random_seed"))
 
     attrs = {}
     attrs["model.name"] = "pchip0"
@@ -114,7 +114,7 @@ def fit_xy_pchip1(idx, x, y, k=1):
     """
 
     # Seed the random number generator for reproducibility
-    np.random.seed(options.get("reproducibility.random_seed"))
+    np.random.seed(options().get("reproducibility.random_seed"))
 
     # Take `k+2` equidistant indexes with no duplicates including extremes [0,N].
     # With k=1, we obtain [0, median_index, N].
@@ -148,7 +148,7 @@ def fit_xy_pchip2(idx, x, y, k=1, max_combinations=1000, strict=True):
     """
 
     # Seed the random number generator for reproducibility
-    np.random.seed(options.get("reproducibility.random_seed"))
+    np.random.seed(options().get("reproducibility.random_seed"))
 
     # Given a budget of k values, we want to determine which are the best k/2 data points to memorise (x,y pairs).
 
@@ -229,7 +229,7 @@ def fit_xy_pchip3(idx, x, y, k=2, percentiles=None, store_percentiles=False):
     """
 
     # Seed the random number generator for reproducibility
-    np.random.seed(options.get("reproducibility.random_seed"))
+    np.random.seed(options().get("reproducibility.random_seed"))
 
     m = PchipInterpolator(x, y)
 
@@ -273,7 +273,7 @@ def fit_xy_pchip4(idx, x, y, k=1):
     """
 
     # Seed the random number generator for reproducibility
-    np.random.seed(options.get("reproducibility.random_seed"))
+    np.random.seed(options().get("reproducibility.random_seed"))
 
     m = PchipInterpolator(x, y)
 
@@ -298,7 +298,7 @@ def fit_xy_pchip4(idx, x, y, k=1):
             method=None,
             p0=np.random.uniform(0, 1, size=k),
             bounds=[[0] * k, [1] * k],
-            maxfev=options.get("transforms.fit.curve_fit.maxfev"),
+            maxfev=options().get("transforms.fit.curve_fit.maxfev"),
         )
         x_model = valid_xmodel(popt)
         y_model = m(x_model)
@@ -348,7 +348,7 @@ def fit_xy_beta_pchip(idx, x, y, k=1, **kwargs):
 def fit_xy_betainc(idx, x, y, percentage=None, errors="raise", bounds=None):
 
     # Seed the random number generator for reproducibility
-    np.random.seed(options.get("reproducibility.random_seed"))
+    np.random.seed(options().get("reproducibility.random_seed"))
 
     if bounds is None:
         # Set bounds to defaults as defined in curve_fit
@@ -369,7 +369,7 @@ def fit_xy_betainc(idx, x, y, percentage=None, errors="raise", bounds=None):
                 nan_policy="raise",
                 method=None,
                 bounds=bounds,
-                maxfev=options.get("transforms.fit.curve_fit.maxfev"),
+                maxfev=options().get("transforms.fit.curve_fit.maxfev"),
             )
             a = popt[0]
             b = popt[1]
@@ -403,7 +403,7 @@ def fit_xy_betainc(idx, x, y, percentage=None, errors="raise", bounds=None):
 def fit_xy_curvefit(idx, x, y, func=None, map_params=None, p0=None, bounds=None):
 
     # Seed the random number generator for reproducibility
-    np.random.seed(options.get("reproducibility.random_seed"))
+    np.random.seed(options().get("reproducibility.random_seed"))
 
     if func is None:
 
@@ -425,7 +425,7 @@ def fit_xy_curvefit(idx, x, y, func=None, map_params=None, p0=None, bounds=None)
             method=None,
             bounds=bounds,
             p0=p0,
-            maxfev=options.get("transforms.fit.curve_fit.maxfev"),
+            maxfev=options().get("transforms.fit.curve_fit.maxfev"),
         )
 
     attrs = {}
