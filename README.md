@@ -14,16 +14,12 @@
 ---
 
 <h1 align="center">
-Manipulate and visualize time series datasets.
+Manipulate and Visualize Time Series Collections.
 </h1>
 
 An open-source Python library for Data Scientists to efficiently manipulate collections of time series data. Features include data loading, transformation, persistence, and visualization.
 
 ---
-
-* **Documentation**: [https://elehcimd.github.io/cumulative](https://elehcimd.github.io/cumulative)
-* **Source code**: [https://github.com/elehcimd/cumulative](https://github.com/elehcimd/cumulative)
-
 
 * **Documentation**: [https://elehcimd.github.io/cumulative](https://elehcimd.github.io/cumulative)
 * **Source code**: [https://github.com/elehcimd/cumulative](https://github.com/elehcimd/cumulative) (License: [BSD 3-Clause](https://elehcimd.github.io/cumulative/license/))

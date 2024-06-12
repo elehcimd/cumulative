@@ -8,28 +8,38 @@ hide:
 #
 
 <p align="center">
-  <img height="75%" width="75%" src="assets/img/logo-wide-black.svg#only-light" alt="MLtraq">
-  <img height="75%" width="75%" src="assets/img/logo-wide-white.svg#only-dark" alt="MLtraq">
+  <img height="75%" width="75%" src="assets/img/logo-wide-black.svg#only-light" alt="Cumulative">
+  <img height="75%" width="75%" src="assets/img/logo-wide-white.svg#only-dark" alt="Cumulative">
 </p>
 
 <p align="center">
 <img src="/cumulative/assets/img/badges/test.svg" alt="Test">
 <img src="/cumulative/assets/img/badges/coverage.svg" alt="Coverage">
 <img src="/cumulative/assets/img/badges/python.svg" alt="Python">
-<a href="https://pypi.org/project/mltraq/"><img src="/cumulative/assets/img/badges/pypi.svg" alt="PyPi"></a>
+<a href="https://pypi.org/project/cumulative/"><img src="/cumulative/assets/img/badges/pypi.svg" alt="PyPi"></a>
 <a href="/license"><img src="/cumulative/assets/img/badges/license.svg" alt="License"></a>
 <img src="/cumulative/assets/img/badges/code-style.svg" alt="Code style">
 </p>
 
+
 ---
 <h1 align="center">
-Manipulate and visualize time series datasets.
+Manipulate and Visualize Time Series Collections.
 </h1>
 
 An open-source Python library for Data Scientists to efficiently manipulate collections of time series data. Features include data loading, transformation, persistence, and visualization.
 
----
-
+<p align="center">
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e1.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e2.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e3.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e4.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e5.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e6.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e7.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e8.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e9.svg">  
+</p>
 
 ---
 
@@ -39,7 +49,6 @@ An open-source Python library for Data Scientists to efficiently manipulate coll
 * **Funding**: You can [star](https://github.com/elehcimd/cumulative) the project on GitHub and [hire me](https://www.linkedin.com/in/dallachiesa/) to make sense of your time series
 
 ---
-
 
 ## Requirements
 

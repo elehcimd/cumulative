@@ -1,5 +1,5 @@
 site_name: Cumulative
-site_description: Manipulate and visualize collections of time series data.
+site_description: Manipulate and Visualize Time Series Collections.
 site_url: https://elehcimd.github.io/cumulative/
 docs_dir: mkdocs/
 site_dir: dist/docs
@@ -67,6 +67,9 @@ markdown_extensions:
       
 nav:
   - index.md
+  - Tutorial:
+    - tutorial/index.md  
+    - tutorial/plotting.md
   - Become a sponsor: sponsor.md
   - License: license.md
   - Citing: cite.md
@@ -80,6 +83,7 @@ plugins:
     - charts # mkdocs-charts-plugin
     - blog:
         pagination_per_page: 1
+    - glightbox # zoom-in for images on click.
 
 extra_css:
 - assets/css/custom.css

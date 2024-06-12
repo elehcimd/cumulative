@@ -1,29 +1,19 @@
-import pandas as pd
-from cumulative import Cumulative
+from cumulative.datasets.load_wide import load_wide
 
 
-def test_copy():
+def test_drop():
+    """
+    Test: We can drop columns by prefix.
+    """
 
-    df = pd.DataFrame(
-        {
-            "id": [1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            "x": [0, 1, 2, 3, 4, 0, 1, 2, 3, 4],
-            "y": [10, 20, 30, 40, 50, 100, 200, 300, 400, 500],
-        }
-    )
-
-    c = Cumulative(df_raw=df).sequence(group="id", x="x", y="y")
-
+    c = load_wide()
     c.copy(dst="test")
-
-    # Test presence of destination column
     assert "test.x" in c.df.columns
-
-    # Add one more column with no "."
-    c.df["test"] = 123
-
-    # Remove columns "test", "test.*"
     c.drop(src="test")
+    assert "test.x" not in c.df.columns
 
-    # Test that all tet columns have been removed
-    assert len([col for col in c.df.columns if col.startswith("test")]) == 0
+
+def test_drop_empty():
+    c = load_wide()
+    c.drop()
+    assert c.df.columns.tolist() == []

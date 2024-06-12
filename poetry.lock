@@ -1082,6 +1082,14 @@ platformdirs = ">=2.2.0"
 pyyaml = ">=5.1"
 
 [[package]]
+name = "mkdocs-glightbox"
+version = "0.4.0"
+description = "MkDocs plugin supports image lightbox with GLightbox."
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "mkdocs-macros-plugin"
 version = "1.0.5"
 description = "Unleash the power of MkDocs with macros and variables"
@@ -2221,7 +2229,7 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.10.0,<3.13.0"
-content-hash = "54ede25bf5ba596891bbd978347cdafa0147a09be7f10c31221d9ffa4bb90e30"
+content-hash = "48ea4df3b9d39286a08047f98e25b143a9a2250dba4c7a53c087fbaca189a68a"
 
 [metadata.files]
 anybadge = [
@@ -3107,6 +3115,10 @@ mkdocs-charts-plugin = [
 mkdocs-get-deps = [
     {file = "mkdocs_get_deps-0.2.0-py3-none-any.whl", hash = "sha256:2bf11d0b133e77a0dd036abeeb06dec8775e46efa526dc70667d8863eefc6134"},
     {file = "mkdocs_get_deps-0.2.0.tar.gz", hash = "sha256:162b3d129c7fad9b19abfdcb9c1458a651628e4b1dea628ac68790fb3061c60c"},
+]
+mkdocs-glightbox = [
+    {file = "mkdocs-glightbox-0.4.0.tar.gz", hash = "sha256:392b34207bf95991071a16d5f8916d1d2f2cd5d5bb59ae2997485ccd778c70d9"},
+    {file = "mkdocs_glightbox-0.4.0-py3-none-any.whl", hash = "sha256:e0107beee75d3eb7380ac06ea2d6eac94c999eaa49f8c3cbab0e7be2ac006ccf"},
 ]
 mkdocs-macros-plugin = [
     {file = "mkdocs-macros-plugin-1.0.5.tar.gz", hash = "sha256:fe348d75f01c911f362b6d998c57b3d85b505876dde69db924f2c512c395c328"},

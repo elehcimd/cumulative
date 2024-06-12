@@ -7,6 +7,8 @@ import warnings
 from contextlib import redirect_stdout
 from typing import List
 
+from cumulative.opts import options
+
 project_dir = os.path.abspath(os.path.dirname(__file__) + os.sep + os.pardir)
 project_name = os.path.basename(project_dir)
 
@@ -24,8 +26,9 @@ def local_python(pathname: str) -> str:
         data_f = f"def local_python_func():\n{func_code}\nlocal_python_func()"
 
     f = io.StringIO()
-    with redirect_stdout(f):
-        exec(data_f)  # noqa
+    with options().ctx({"plot.interactive": False, "plot.save_to": f"{pathname}.svg"}):
+        with redirect_stdout(f):
+            exec(data_f)  # noqa
     return f.getvalue()
 
 
@@ -49,6 +52,11 @@ def main(argv):
     rm_files = glob.glob(f"mkdocs/**/*{pattern}*.out", recursive=True) + glob.glob(
         f"mkdocs/**/*{pattern}*.src", recursive=True
     )
+    # Make sure we don't remove images in the assets directory that are not regenerated.
+    rm_assets = glob.glob(f"mkdocs/**/*{pattern}*.svg", recursive=True)
+    rm_assets = [f for f in rm_assets if "/img/examples/" in f]
+    rm_files += rm_assets
+
     print("Removing outputs")
     for idx, rm_file in enumerate(rm_files):
         print(f"[{idx+1}/{len(rm_files)}] Removing {rm_file}")

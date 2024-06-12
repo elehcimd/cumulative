@@ -1,10 +1,13 @@
+from __future__ import annotations
+
 import logging
 
 import pandas as pd
+from mltraq.utils.exceptions import FatalError
 from tqdm.auto import tqdm
 
-from cumulative.options import options
-from cumulative.utils import validate_frame
+from cumulative.opts import options
+from cumulative.utils.frames import drop_cols_with_prefix
 
 log = logging.getLogger(__name__)
 
@@ -14,42 +17,65 @@ def process_row(func, row, **kwargs):
 
 
 class Transform:
-    def __init__(self, c, name=None):
+    """
+    Abstraction of transforms.
+    """
+
+    def __init__(self, c, name: str = None):
+        """
+        Link transform to Cumulative class and set its name.
+        """
+
         self.c = c
         self.name = self.__class__.__name__.lower() if not name else name
 
-    def transform_row(self, row):
+    def transform_row(self, row: pd.Series) -> pd.Series:
+        """
+        Transformations can be applied either on rows or columns.
+        For rows, the `transform_row` method is overloaded and it
+        returns a series with the new columns to add.
+        """
         return pd.Series()
 
     def __call__(self, **kwargs):
-        tqdm_params = options().get("tqdm")
-        tqdm_params["desc"] = self.name
-        tqdm.pandas(**tqdm_params)
-        # The destination prefix is not required/expected by row transforms,
-        # let's drop it if present.
+        """
+        Handles transform requests.
+        """
+        tqdm.pandas(**(options().get("tqdm") | {"desc": self.name}))
 
-        kwargs["src"] = options().default_if_null(kwargs.pop("src", None), "transforms.source")
-        dst = options().default_if_null(kwargs.pop("dst", None), "transforms.destination")
+        # Ensure src and dst of operation is set
+        kwargs["src"] = options().default_if_null(kwargs.pop("src", None), "transforms.src")
+        kwargs["dst"] = options().default_if_null(kwargs.pop("dst", None), "transforms.dst")
+        kwargs["drop"] = options().default_if_null(kwargs.pop("drop", None), "transforms.drop")
 
-        df = self.apply(**kwargs)
+        # Apply transform and obtain new columns
+        kwargs_apply = kwargs.copy()
+        dst = kwargs_apply.pop("dst")
+        kwargs_apply.pop("drop")
+        # dst, drop parameters are removed before executing .apply, as they are handled
+        # transparently in this method.
+        df = self.apply(**kwargs_apply)
 
-        self.c.track(self.name, dst, kwargs)
+        # Log operation
+        self.c.lineage.track(self.name, dst, kwargs)
 
         if df is None:
-            # Sort
+            # No change (e.g., sorting)
             return self.c
-
-        if isinstance(df, pd.DataFrame):
-            df.columns = [f"{dst}.{col}" if col != "idx" else col for col in df.columns]
+        elif isinstance(df, pd.DataFrame):
+            # Multiple columns added from processing entire data frame
+            df.columns = [f"{kwargs['dst']}.{col}" if col != "idx" else col for col in df.columns]
         elif isinstance(df, pd.Series):
-            df = df.rename(dst).to_frame()
+            # Multiple columns added from processing single row
+            df = pd.DataFrame({kwargs["dst"]: df})
         else:
-            raise Exception("Invalid argument type")
+            raise FatalError("Invalid transform result; expected None, pandas.Series or pandas.DataFrame")
 
-        validate_frame(df, f"Transform {self.name}")
+        if kwargs["drop"]:
+            # If drop specified, clean up prefix `dst` before adding the new columns.
+            # This ensures that we don't mix up results of different transforms in the same prefix.
+            self.c.df = drop_cols_with_prefix(self.c.df, kwargs["dst"])
 
-        drop_cols = self.c.columns_with_prefix(dst, errors="ignore")
-        self.c.df = self.c.df.drop(columns=drop_cols, errors="ignore")
         self.c.df = pd.concat(
             [self.c.df, df],
             axis=1,
@@ -57,4 +83,11 @@ class Transform:
         return self.c
 
     def apply(self, **kwargs):
+        """
+        Transformations can be applied either on rows or columns.
+        For columns, the `apply` method is overloaded and it
+        returns a data frame with the new columns to add.
+
+        By default, it handles row transforms.
+        """
         return self.c.df.progress_apply(lambda row: self.transform_row(row, **kwargs), axis=1)

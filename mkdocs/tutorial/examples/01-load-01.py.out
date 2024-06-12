@@ -1,0 +1,5 @@
+Type:  <class 'pandas.core.frame.DataFrame'>
+--
+               base.x                    base.y base.category
+0  [0, 1, 2, 3, 4, 5]  [10, 20, 30, 40, 50, 60]             A
+1        [0, 1, 2, 3]           [5, 15, 25, 35]             B
