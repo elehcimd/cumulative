@@ -1,3 +1,5 @@
+import os.path
+import shutil
 from textwrap import indent
 
 
@@ -22,7 +24,7 @@ def remove_comments(s):
     return "\n".join(lines_nocomments) + "\n"
 
 
-def define_env(env):
+def define_env(env):  # noqa
     @env.macro
     def include_code(
         pathname, title="", lang="py", linesnum=True, hl_lines=None, ln_src=None, ln_out=None, drop_comments=True
@@ -43,6 +45,11 @@ def define_env(env):
 
         code_src_lines = open(f"{pathname}.src").readlines()
         code_out_lines = open(f"{pathname}.out").readlines()
+        code_out_svg_url = None
+        if os.path.isfile(f"{pathname}.svg"):
+            code_out_svg_pathname = "mkdocs/assets/img/examples/" + f"{pathname}.svg".replace("/", "_")
+            shutil.copyfile(f"{pathname}.svg", code_out_svg_pathname)
+            code_out_svg_url = "/cumulative/assets/img/examples/" + f"{pathname}.svg".replace("/", "_")
 
         # ln_src: Limit code to lines between m and n, given a format string "m-n"
         # ln_out: Same as ln_src but for he output
@@ -64,13 +71,23 @@ def define_env(env):
         # Assemble output multi-line string
         code_out = "".join(code_out_lines[ln_out[0] - 1 : ln_out[1]])
 
+        # Construct SVG out
+        if code_out_svg_url:
+            svg_out = f'    <embed type="image/svg+xml" src="{code_out_svg_url}" style="width: 50%; height: auto;"/>'
+        else:
+            svg_out = ""
+
+        # If there's only SVG out and code out is empty, set it to "[image]"
+        if code_out == "" and svg_out:
+            code_out = "[image]"
+
         code_block = f'```{lang} {linesnum} {hl_lines}\n{code_src}\n```\n```{lang} title="Output"\n{code_out}\n```\n'
 
         # To add line numbers to the output block, add the string 'linenums="1"'.
 
         indented_code_block = indent(code_block, " " * 4)
 
-        return f'!!! Example "{title}"\n{indented_code_block}'
+        return f'!!! Example "{title}"\n{indented_code_block}\n{svg_out}'
 
     @env.macro
     def include_mk(pathname, path_prefix=".", snippet="snippet"):
