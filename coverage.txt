@@ -1,18 +1,18 @@
 Name                                           Stmts   Miss  Cover
 ------------------------------------------------------------------
 src/cumulative/__init__.py                         3      0   100%
-src/cumulative/cumulative.py                      51      9    82%
-src/cumulative/datasets/load_betainc.py           23      0   100%
+src/cumulative/cumulative.py                      51      0   100%
+src/cumulative/datasets/load_dist.py              37     12    68%
 src/cumulative/datasets/load_twoseries.py          7      0   100%
 src/cumulative/datasets/load_wide.py              10      0   100%
 src/cumulative/loaders/preprocess.py              22      1    95%
 src/cumulative/opts.py                             5      0   100%
-src/cumulative/plot.py                            57     10    82%
+src/cumulative/plot.py                            57     12    79%
 src/cumulative/transforms/__init__.py              0      0   100%
 src/cumulative/transforms/frame/cluster.py        21     12    43%
 src/cumulative/transforms/frame/copy.py            9      0   100%
 src/cumulative/transforms/frame/drop.py            5      0   100%
-src/cumulative/transforms/frame/score.py          26      9    65%
+src/cumulative/transforms/frame/score.py          26     18    31%
 src/cumulative/transforms/frame/sort.py            4      0   100%
 src/cumulative/transforms/row/apply.py            10      0   100%
 src/cumulative/transforms/row/bin.py              19     13    32%
@@ -27,4 +27,4 @@ src/cumulative/utils/lineage.py                   40     18    55%
 src/cumulative/utils/warnings.py                   5      2    60%
 src/cumulative/version.py                          1      0   100%
 ------------------------------------------------------------------
-TOTAL                                            490     94    81%
+TOTAL                                            504    108    79%
