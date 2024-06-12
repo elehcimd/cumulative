@@ -1,37 +1,36 @@
-import pandas as pd
-from cumulative import Cumulative
+from cumulative.datasets.load_wide import load_wide
 
 
-def test_default_fields():
+def test_scale_xy():
 
-    df = pd.DataFrame(
-        {
-            "id": [1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            "x": [0, 1, 2, 3, 4, 0, 1, 2, 3, 4],
-            "y": [10, 20, 30, 40, 50, 100, 200, 300, 400, 500],
-        }
-    )
-
-    c = Cumulative(df_raw=df).sequence(group="id", x="x", y="y")
-    c.scale(dst="test")
-
-    # Test expected fields
-    expected = ["test.x_min", "test.x_max", "test.y_min", "test.y_max", "test.x", "test.y"]
-    assert set(c.columns_with_prefix("test")) == set(expected)
+    c = load_wide()
+    c.scale(dst="test", kind="xy")
+    row = c.df.iloc[0]
+    assert row["test.x"].min() == 0
+    assert row["test.x"].max() == 1
+    assert row["test.y"].min() == 0
+    assert row["test.y"].max() == 1
 
 
-def test_x_min():
+def test_scale_x():
 
-    df = pd.DataFrame(
-        {
-            "id": [1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            "x": [0, 1, 2, 3, 4, 0, 1, 2, 3, 4],
-            "y": [10, 20, 30, 40, 50, 100, 200, 300, 400, 500],
-        }
-    )
+    c = load_wide()
+    c.scale(dst="test", kind="x")
 
-    c = Cumulative(df_raw=df).sequence(group="id", x="x", y="y", dst="seq")
-    c.scale(src="seq", dst="test")
+    assert set(c.frame("test").columns.tolist()) == {"test.x", "test.x.min", "test.x.max", "test.y"}
 
-    # Test y_min value for id=2
-    assert c.df[c.df["seq.name"] == 2]["test.y_min"].iloc[0] == 100
+    row = c.df.iloc[0]
+    assert row["test.x"].min() == 0
+    assert row["test.x"].max() == 1
+
+
+def test_scale_y():
+
+    c = load_wide()
+    c.scale(dst="test", kind="y")
+
+    assert set(c.frame("test").columns.tolist()) == {"test.x", "test.y.min", "test.y.max", "test.y"}
+
+    row = c.df.iloc[0]
+    assert row["test.y"].min() == 0
+    assert row["test.y"].max() == 1

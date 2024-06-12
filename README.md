@@ -14,7 +14,7 @@
 ---
 
 <h1 align="center">
-Manipulate and visualize time series datasets.
+Manipulate and Visualize Time Series Collections.
 </h1>
 
 An open-source Python library for Data Scientists to efficiently manipulate collections of time series data. Features include data loading, transformation, persistence, and visualization.
