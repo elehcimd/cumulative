@@ -21,6 +21,7 @@ hide:
 <img src="/cumulative/assets/img/badges/code-style.svg" alt="Code style">
 </p>
 
+
 ---
 <h1 align="center">
 Manipulate and Visualize Time Series Collections.
@@ -28,8 +29,17 @@ Manipulate and Visualize Time Series Collections.
 
 An open-source Python library for Data Scientists to efficiently manipulate collections of time series data. Features include data loading, transformation, persistence, and visualization.
 
----
-
+<p align="center">
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e1.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e2.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e3.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e4.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e5.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e6.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e7.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e8.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e9.svg">  
+</p>
 
 ---
 
@@ -39,7 +49,6 @@ An open-source Python library for Data Scientists to efficiently manipulate coll
 * **Funding**: You can [star](https://github.com/elehcimd/cumulative) the project on GitHub and [hire me](https://www.linkedin.com/in/dallachiesa/) to make sense of your time series
 
 ---
-
 
 ## Requirements
 

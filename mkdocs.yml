@@ -69,6 +69,7 @@ nav:
   - index.md
   - Tutorial:
     - tutorial/index.md  
+    - tutorial/plotting.md
   - Become a sponsor: sponsor.md
   - License: license.md
   - Citing: cite.md
@@ -82,6 +83,7 @@ plugins:
     - charts # mkdocs-charts-plugin
     - blog:
         pagination_per_page: 1
+    - glightbox # zoom-in for images on click.
 
 extra_css:
 - assets/css/custom.css

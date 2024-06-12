@@ -11,6 +11,10 @@ class Options(BaseOptions):
             "drop": True,
             "tmp": "temp",
         },
+        "plot": {
+            "save_to": None,
+            "interactive": True,
+        },
         "warnings": {"disable": True},
         "doc": {"url": "https://elehcimd.github.io/cumulative/"},
     }

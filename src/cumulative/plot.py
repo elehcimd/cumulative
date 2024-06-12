@@ -1,4 +1,3 @@
-import matplotlib
 import matplotlib as mpl
 import pandas as pd
 from matplotlib import pyplot as plt
@@ -11,14 +10,16 @@ class Canvas:
     Defines the drawing area in terms of matplotlib config, colors and preferences.
     """
 
-    def __init__(self, x_label: str = "X", y_label: str = "Y", interactive: bool = True):
+    def __init__(self, x_label: str = "X", y_label: str = "Y", interactive: bool = None):
         """
         Initializes canvas with X,Y labels, in `interactive` mode on/off.
         """
 
+        interactive = options().default_if_null(interactive, "plot.interactive")
+
         mpl.rcParams.update(mpl.rcParamsDefault)
         plt.rcParams["font.family"] = "monospace"
-        cmap = matplotlib.colormaps["cool"]
+        cmap = mpl.colormaps["cool"]
 
         if interactive:
             plt.ion()
@@ -51,17 +52,17 @@ class Plot:
         """
         self.c = c
 
-    def render(self, to: str = ""):
+    def render(self, save_to: str = None):
         """
-        Draw what's on the canvas.
+        Draw what's on the canvas, to screen and/or file.
         """
 
-        if to is None:
-            if plt.isinteractive():
-                plt.show()
-        else:
-            if to.endswith(".svg"):
-                plt.savefig(to, format="svg")
+        if plt.isinteractive():
+            plt.show()
+
+        save_to = options().default_if_null(save_to, "plot.save_to")
+        if save_to is not None and save_to.endswith(".svg"):
+            plt.savefig(save_to, format="svg", bbox_inches="tight")
 
     def xrays(
         self,
@@ -72,10 +73,14 @@ class Plot:
         lw: float = 1,
         k: int = 20,
         style: str = "-",
+        color=None,
     ):
         """
         Simplifies the `src` prefix interpolating on `k` points, and renders them as monochrome points/curves.
         """
+
+        if color is None:
+            color = canvas.pen_color
 
         src = options().default_if_null(src, "transforms.src")
         tmp = options().get("transforms.tmp")
@@ -91,7 +96,7 @@ class Plot:
         ):
 
             self.c.interpolate(src=src, method="pchipp", k=k, num=k)
-            self.c.plot.scatter(canvas=canvas, alpha=alpha, ms=ms, lw=lw, style=style)
+            self.c.plot.scatter(canvas=canvas, alpha=alpha, ms=ms, lw=lw, style=style, color=color)
             self.c.drop(src=tmp)
             return self
 

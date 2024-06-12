@@ -1,0 +1,1 @@
+mkdocs build && mkdocs serve   --no-livereload --clean 
