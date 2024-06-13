@@ -14,6 +14,7 @@ class Options(BaseOptions):
         "plot": {
             "save_to": None,
             "interactive": True,
+            "canvas_cls": None,
         },
         "warnings": {"disable": True},
         "doc": {"url": "https://elehcimd.github.io/cumulative/"},

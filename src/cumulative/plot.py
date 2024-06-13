@@ -45,6 +45,17 @@ class Canvas:
         self.pen_color = "white"
 
 
+class WhiteEmptyCanvas(Canvas):
+    """
+    Empty canvas.
+    """
+
+    def __init__(self):
+        super().__init__(self)
+        plt.ioff()
+        plt.axis("off")
+
+
 class Plot:
     def __init__(self, c):
         """
@@ -63,6 +74,8 @@ class Plot:
         save_to = options().default_if_null(save_to, "plot.save_to")
         if save_to is not None and save_to.endswith(".svg"):
             plt.savefig(save_to, format="svg", bbox_inches="tight")
+
+        plt.close()
 
     def xrays(
         self,
@@ -112,6 +125,9 @@ class Plot:
     ):
 
         src = options().default_if_null(src, "transforms.src")
+        canvas = options().get("plot.canvas_cls")
+        if isinstance(canvas, type):
+            canvas = canvas()
 
         if canvas is None:
             canvas = Canvas(x_label=x_label, y_label=y_label)
