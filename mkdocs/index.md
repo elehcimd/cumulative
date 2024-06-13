@@ -39,6 +39,15 @@ An open-source Python library for Data Scientists to efficiently manipulate coll
   <img height="10%" width="10%" src="/cumulative/assets/img/demo/e7.svg">  
   <img height="10%" width="10%" src="/cumulative/assets/img/demo/e8.svg">  
   <img height="10%" width="10%" src="/cumulative/assets/img/demo/e9.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e10.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e11.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e12.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e13.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e14.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e15.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e16.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e17.svg">  
+  <img height="10%" width="10%" src="/cumulative/assets/img/demo/e18.svg">  
 </p>
 
 ---

@@ -1,8 +1,7 @@
 from cumulative.datasets.load_wide import load_wide
 
 
-def test_sample():
+def test_sort():
 
     c = load_wide().sort(by="base.attr.rate")
-    c.sample(n=1)
-    assert len(c.df) == 1
+    assert c.df["base.attr.rate"].iloc[0] == 2

@@ -7,6 +7,7 @@ from cumulative.plot import Plot
 from cumulative.transforms.frame.cluster import Cluster
 from cumulative.transforms.frame.copy import Copy
 from cumulative.transforms.frame.drop import Drop
+from cumulative.transforms.frame.sample import Sample
 from cumulative.transforms.frame.score import Score
 from cumulative.transforms.frame.sort import Sort
 from cumulative.transforms.row.apply import Apply
@@ -42,6 +43,7 @@ class Cumulative:
         self.bin = Bin(self)
         self.drop = Drop(self)
         self.apply = Apply(self)
+        self.sample = Sample(self)
 
         # Utilities
         self.plot = Plot(self)

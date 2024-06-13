@@ -79,9 +79,6 @@ class Plot:
         Simplifies the `src` prefix interpolating on `k` points, and renders them as monochrome points/curves.
         """
 
-        if color is None:
-            color = canvas.pen_color
-
         src = options().default_if_null(src, "transforms.src")
         tmp = options().get("transforms.tmp")
 
