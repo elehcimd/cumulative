@@ -14,7 +14,11 @@ def scale(values: np.ndarray, prefix: str) -> dict:
 
     v_min = np.min(values)
     v_max = np.max(values)
-    V = (values - v_min) / (v_max - v_min)
+
+    if v_min == v_max:  # minmax scaling not defined, defaulting to 1
+        V = np.full(values.shape[0], 1.0)
+    else:
+        V = (values - v_min) / (v_max - v_min)
     return {f"{prefix}": V, f"{prefix}.min": v_min, f"{prefix}.max": v_max}
 
 

@@ -20,7 +20,7 @@ src/cumulative/transforms/row/bin.py              19     13    32%
 src/cumulative/transforms/row/cumsum.py           17      2    88%
 src/cumulative/transforms/row/diff.py             17      4    76%
 src/cumulative/transforms/row/interpolate.py      58      7    88%
-src/cumulative/transforms/row/scale.py            22      0   100%
+src/cumulative/transforms/row/scale.py            24      1    96%
 src/cumulative/transforms/transform.py            39      5    87%
 src/cumulative/utils/__init__.py                   0      0   100%
 src/cumulative/utils/frames.py                    19      2    89%
@@ -28,4 +28,4 @@ src/cumulative/utils/lineage.py                   40     18    55%
 src/cumulative/utils/warnings.py                   5      2    60%
 src/cumulative/version.py                          1      0   100%
 ------------------------------------------------------------------
-TOTAL                                            518    110    79%
+TOTAL                                            520    111    79%

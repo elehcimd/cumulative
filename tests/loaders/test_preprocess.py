@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from cumulative.loaders.preprocess import melt, nest
 
@@ -47,5 +48,5 @@ def test_nest():
     print(df.columns.tolist())
     assert df.columns.tolist() == ["base.name", "base.c", "base.x", "base.y", "base.attr.category"]
 
-    assert df.iloc[0]["base.x"].dtype == int
-    assert df.iloc[0]["base.y"].dtype == float
+    assert df.iloc[0]["base.x"].dtype == np.dtype("float64")
+    assert df.iloc[0]["base.y"].dtype == np.dtype("float64")

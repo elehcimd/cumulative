@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cumulative"
-version = "0.1.6"
+version = "0.1.8"
 description = "Manipulate and Visualize Time Series Collections."
 authors = ["Michele Dallachiesa <michele.dallachiesa@sigforge.com>"]
 license = "BSD-3"

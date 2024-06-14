@@ -5,7 +5,14 @@ import pandas as pd
 from cumulative.opts import options
 
 
-def melt(df: pd.DataFrame, group: str, pattern: str = "^t(.*)$", attributes: list[str] | None = None) -> pd.DataFrame:
+def melt(
+    df: pd.DataFrame,
+    group: str,
+    pattern: str = "^t(.*)$",
+    x_dtype: type = None,
+    y_dtype: type = None,
+    attributes: list[str] | None = None,
+) -> pd.DataFrame:
     """
     Unpivot dataframe `dt` from wide to long format. Similar to Pandas.melt, but more flexible.
     `pattern` controls which columns provide numerical values, and instructs how to extract them.
@@ -14,6 +21,12 @@ def melt(df: pd.DataFrame, group: str, pattern: str = "^t(.*)$", attributes: lis
 
     if attributes is None:
         attributes = []
+
+    if x_dtype is None:
+        x_dtype = np.dtype("float64")
+
+    if y_dtype is None:
+        y_dtype = np.dtype("float64")
 
     # example: df has columns ['id', 'category', 't1', 't2', 't3', 't4', 't5']
     # extract list of pairs (col_name, matching_substring) from all columns with at least one match
@@ -32,12 +45,14 @@ def melt(df: pd.DataFrame, group: str, pattern: str = "^t(.*)$", attributes: lis
         )
 
     df = df.apply(f, axis=1).explode(["c", "x", "y"])
+    df["x"] = df["x"].astype(x_dtype)
+    df["y"] = df["y"].astype(y_dtype)
 
     # example: {'col': 't1', 'time': 1, 'value': 5, 'category: 'A'
     return df
 
 
-def nest(df: pd.DataFrame, x_dtype=int, y_dtype=float, dst=None) -> pd.DataFrame:
+def nest(df: pd.DataFrame, dst=None) -> pd.DataFrame:
     """
     Transform series in long format to nested format. Expected columns:
     - "name": name of the series
@@ -51,13 +66,14 @@ def nest(df: pd.DataFrame, x_dtype=int, y_dtype=float, dst=None) -> pd.DataFrame
 
     attributes = [c for c in df.columns if c.startswith("attr.")]
 
-    df = df.groupby("name").agg(
-        {"c": np.array, "x": lambda V: np.array(V, dtype=x_dtype), "y": lambda V: np.array(V, dtype=y_dtype)}
-        | {attr: "first" for attr in attributes}
-    )
+    df = df.groupby("name").agg({"c": list, "x": list, "y": list} | {attr: "first" for attr in attributes})
+    df["x"] = df["x"].apply(lambda V: np.array(V))
+    df["y"] = df["y"].apply(lambda V: np.array(V))
+
     df = df.reset_index(names="name")
     df = df.rename(
         columns={"name": f"{dst}.name", "c": f"{dst}.c", "x": f"{dst}.x", "y": f"{dst}.y"}
         | {attr: f"{dst}.{attr}" for attr in attributes}
     )
+
     return df

@@ -10,7 +10,9 @@ class Canvas:
     Defines the drawing area in terms of matplotlib config, colors and preferences.
     """
 
-    def __init__(self, x_label: str = "X", y_label: str = "Y", interactive: bool = None):
+    def __init__(
+        self, x_label: str = "X", y_label: str = "Y", interactive: bool = None, facecolor: str = "white", figsize=None
+    ):
         """
         Initializes canvas with X,Y labels, in `interactive` mode on/off.
         """
@@ -26,23 +28,35 @@ class Canvas:
         else:
             plt.ioff()
 
-        fig, ax = plt.subplots(figsize=(5, 5))
+        if figsize is None:
+            figsize = (5, 5)
+
+        fig, ax = plt.subplots(figsize=figsize)
 
         ax.clear()
-        ax.set_facecolor("black")
+        ax.set_facecolor(facecolor)
         ax.spines["top"].set_visible(False)
         ax.spines["right"].set_visible(False)
         ax.set_xlabel(x_label)
         ax.set_ylabel(y_label)
 
-        lim_pad = 0.05
-        ax.set_xlim(0 - lim_pad, 1 + lim_pad)
-        ax.set_ylim(0 - lim_pad, 1 + lim_pad)
-
         self.fig = fig
         self.ax = ax
         self.cmap = cmap
-        self.pen_color = "white"
+        self.pen_color = "black"
+
+    def show(self):
+        plt.show()
+
+
+class UnlimitCanvas(Canvas):
+    """
+    Empty canvas.
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.ax.set_facecolor("green")
 
 
 class WhiteEmptyCanvas(Canvas):
@@ -52,8 +66,6 @@ class WhiteEmptyCanvas(Canvas):
 
     def __init__(self):
         super().__init__(self)
-        plt.ioff()
-        plt.axis("off")
 
 
 class Plot:
@@ -76,6 +88,7 @@ class Plot:
             plt.savefig(save_to, format="svg", bbox_inches="tight")
 
         plt.close()
+        return self
 
     def xrays(
         self,
@@ -125,8 +138,10 @@ class Plot:
     ):
 
         src = options().default_if_null(src, "transforms.src")
-        canvas = options().get("plot.canvas_cls")
+        canvas = options().default_if_null(canvas, "plot.canvas_cls")
+
         if isinstance(canvas, type):
+            # is a class, instantiate it
             canvas = canvas()
 
         if canvas is None:

@@ -19,6 +19,7 @@ from cumulative.transforms.row.scale import Scale
 from cumulative.transforms.transform import Transform
 from cumulative.utils.frames import columns_with_prefix
 from cumulative.utils.lineage import Lineage
+from cumulative.utils.validate import Validate
 
 log = logging.getLogger(__name__)
 
@@ -49,6 +50,8 @@ class Cumulative:
         self.plot = Plot(self)
         self.lineage = Lineage()
         self.explain = self.lineage.explain
+        self.validate = Validate(self)
+        self.check = self.validate.check
 
     def register_transform(self, name: str, cls: Transform):
         """

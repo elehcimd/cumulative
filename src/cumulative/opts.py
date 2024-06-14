@@ -16,7 +16,7 @@ class Options(BaseOptions):
             "interactive": True,
             "canvas_cls": None,
         },
-        "warnings": {"disable": True},
+        "warnings": {"disable": False},
         "doc": {"url": "https://elehcimd.github.io/cumulative/"},
     }
 
