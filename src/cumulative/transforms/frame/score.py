@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+
 from cumulative.transforms.transform import Transform
 from cumulative.utils.frames import drop_prefix
 

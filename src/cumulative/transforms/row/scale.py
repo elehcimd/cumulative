@@ -2,6 +2,7 @@ import logging
 
 import numpy as np
 import pandas as pd
+
 from cumulative.transforms.transform import Transform
 
 log = logging.getLogger(__name__)

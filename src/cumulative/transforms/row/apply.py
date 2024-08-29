@@ -1,6 +1,7 @@
 import logging
 
 import pandas as pd
+
 from cumulative.transforms.transform import Transform
 from cumulative.utils.frames import rows_with_prefix
 

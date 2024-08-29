@@ -2,10 +2,11 @@ import warnings
 
 import numpy as np
 import pandas as pd
-from cumulative.opts import options
-from cumulative.transforms.transform import Transform
 from sklearn.cluster import KMeans
 from sklearn.exceptions import ConvergenceWarning
+
+from cumulative.opts import options
+from cumulative.transforms.transform import Transform
 
 
 class Cluster(Transform):

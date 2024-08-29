@@ -2,10 +2,11 @@ import logging
 
 import numpy as np
 import pandas as pd
+from scipy.interpolate import PchipInterpolator
+
 from cumulative.opts import options
 from cumulative.transforms.transform import Transform
 from cumulative.utils.warnings import warn
-from scipy.interpolate import PchipInterpolator
 
 log = logging.getLogger(__name__)
 

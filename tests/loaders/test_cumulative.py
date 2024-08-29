@@ -1,4 +1,5 @@
 import pandas as pd
+
 from cumulative.datasets.load_wide import load_wide
 
 

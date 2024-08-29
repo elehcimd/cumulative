@@ -1,4 +1,5 @@
 import pandas as pd
+
 from cumulative.transforms.transform import Transform
 from cumulative.utils.frames import columns_with_prefix, drop_prefix
 

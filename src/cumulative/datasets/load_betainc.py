@@ -2,10 +2,11 @@ import itertools
 
 import numpy as np
 import pandas as pd
+from scipy.special import betainc
+
 from cumulative import Cumulative
 from cumulative.opts import options
 from cumulative.utils.lineage import get_kwargs
-from scipy.special import betainc
 
 
 def betainc_record(a: float, b: float, num: int, dst: str) -> dict:

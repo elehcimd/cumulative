@@ -1,9 +1,10 @@
 import numpy as np
 import pandas as pd
+from scipy.stats import rv_continuous
+
 from cumulative import Cumulative
 from cumulative.opts import options
 from cumulative.utils.lineage import get_kwargs
-from scipy.stats import rv_continuous
 
 
 class ExceptionInvalidKind(Exception):

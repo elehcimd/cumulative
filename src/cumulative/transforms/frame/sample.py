@@ -1,4 +1,5 @@
 import pandas as pd
+
 from cumulative.transforms.transform import Transform
 
 
