@@ -1,4 +1,5 @@
 import pandas as pd
+
 from cumulative import Cumulative
 
 df = pd.DataFrame(

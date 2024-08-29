@@ -1,6 +1,7 @@
+from scipy.stats import norm
+
 from cumulative.datasets.load_dist import load_dist
 from cumulative.plot import Canvas
-from scipy.stats import norm
 
 canvas = Canvas()
 load_dist([norm(0, 1)] * 30, kind="rvs").plot.scatter(canvas=canvas, style="-", color="green", alpha=0.5)
