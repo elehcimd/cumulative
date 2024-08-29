@@ -50,7 +50,7 @@ def load_dist(dists: list[rv_continuous], kind: str = "cdf", num: int = 100, dst
     (kind="rvs"), each with `num` points, with prefix `dst`.
     """
 
-    dst = options().default_if_null(dst, "transforms.dst")
+    dst = options().get("transforms.dst", prefer=dst)
 
     records = []
     if kind == "cdf":

@@ -28,7 +28,7 @@ def load_betainc(a_min=0.1, a_max=10, b_min=0.1, b_max=10, size=10, num=100, dst
     a = np.linspace(a_min, a_max, size)
     b = np.linspace(b_min, b_max, size)
 
-    dst = options().default_if_null(dst, "transforms.dst")
+    dst = options().get("transforms.dst", prefer=dst)
 
     records = []
     for ab in itertools.product(a, b):

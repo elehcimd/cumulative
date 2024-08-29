@@ -1179,19 +1179,19 @@ mkdocstrings = ">=0.25"
 
 [[package]]
 name = "mltraq"
-version = "0.1.136"
-description = "Track and Collaborate on AI Experiments."
+version = "0.1.153"
+description = "Track and Collaborate on ML & AI Experiments."
 category = "main"
 optional = false
-python-versions = "<3.13.0,>=3.10.0"
+python-versions = ">=3.9.0"
 
 [package.dependencies]
 cloudpickle = ">=2.2.0"
-joblib = ">=1.3.2"
+joblib = ">=1.4.0"
 pandas = ">=1.5.3"
 pyarrow = ">=10.0.0"
 sqlalchemy = ">=2.0.0"
-tabulate = ">=0.9.0,<0.10.0"
+tabulate = ">=0.9.0"
 tqdm = ">=4.64.1"
 
 [[package]]
@@ -2229,7 +2229,7 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.10.0,<3.13.0"
-content-hash = "48ea4df3b9d39286a08047f98e25b143a9a2250dba4c7a53c087fbaca189a68a"
+content-hash = "75e7776e0363c0f03a94f1a485bd5ebbad76c500b19046bc1b26fadc00277473"
 
 [metadata.files]
 anybadge = [
@@ -3141,8 +3141,8 @@ mkdocstrings-python = [
     {file = "mkdocstrings_python-1.10.3.tar.gz", hash = "sha256:321cf9c732907ab2b1fedaafa28765eaa089d89320f35f7206d00ea266889d03"},
 ]
 mltraq = [
-    {file = "mltraq-0.1.136-py3-none-any.whl", hash = "sha256:d6be979d5c03848330e92f7a78585a964b7c34812cbfb49dfee8ef60eabe556e"},
-    {file = "mltraq-0.1.136.tar.gz", hash = "sha256:872edbbde83c24abbb746be8c1431e8562cbf413bb4ccde0973401868e74918e"},
+    {file = "mltraq-0.1.153-py3-none-any.whl", hash = "sha256:3b8ea735ef175d3e66c4d638bf38b51f98d5d6fa62e1bab43014cfb4b7623fd7"},
+    {file = "mltraq-0.1.153.tar.gz", hash = "sha256:0dc591c02ab6ada2427e688399705c7c94e5140851d5b4b3a1fe6cc52e3baa1b"},
 ]
 mypy-extensions = [
     {file = "mypy_extensions-1.0.0-py3-none-any.whl", hash = "sha256:4392f6c0eb8a5668a69e23d168ffa70f0be9ccfd32b5cc2d26a34ae5b844552d"},

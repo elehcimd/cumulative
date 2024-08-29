@@ -34,9 +34,9 @@ class Lineage:
             kwargs = {}
 
         kwargs = kwargs.copy()
-        src = options().default_if_null(kwargs.pop("src", None), "transforms.src")
-        dst = options().default_if_null(kwargs.pop("dst", None), "transforms.dst")
-        drop = options().default_if_null(kwargs.pop("drop", None), "transforms.drop")
+        src = options().get("transforms.src", prefer=kwargs.pop("src", None))
+        dst = options().get("transforms.dst", prefer=kwargs.pop("dst", None))
+        drop = options().get("transforms.drop", prefer=kwargs.pop("drop", None))
 
         self.steps.append({"name": name, "src": src, "dst": dst, "drop": drop, "kwargs": kwargs})
 

@@ -1,7 +1,7 @@
 Dataset overview:
-Count...: 300
+Count...: 100
 Length..: min=100 max=100 diff=0
 X min...: min=0.0 max=0.0 diff=0.0
 X max...: min=1.0 max=1.0 diff=0.0
-Y min...: min=0.0 max=0.0 diff=0.0
-Y max...: min=1.0 max=1.0 diff=0.0
+Y min...: min=-2.940700145233411 max=-1.8749936864835033 diff=1.0657064587499079
+Y max...: min=1.8791696482729665 max=2.9432415183731666 diff=1.0640718701002

@@ -44,9 +44,9 @@ class Transform:
         tqdm.pandas(**(options().get("tqdm") | {"desc": self.name}))
 
         # Ensure src and dst of operation is set
-        kwargs["src"] = options().default_if_null(kwargs.pop("src", None), "transforms.src")
-        kwargs["dst"] = options().default_if_null(kwargs.pop("dst", None), "transforms.dst")
-        kwargs["drop"] = options().default_if_null(kwargs.pop("drop", None), "transforms.drop")
+        kwargs["src"] = options().get("transforms.src", prefer=kwargs.pop("src", None))
+        kwargs["dst"] = options().get("transforms.dst", prefer=kwargs.pop("dst", None))
+        kwargs["drop"] = options().get("transforms.drop", prefer=kwargs.pop("drop", None))
 
         # Apply transform and obtain new columns
         kwargs_apply = kwargs.copy()

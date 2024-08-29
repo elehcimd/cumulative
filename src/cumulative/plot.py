@@ -17,7 +17,7 @@ class Canvas:
         Initializes canvas with X,Y labels, in `interactive` mode on/off.
         """
 
-        interactive = options().default_if_null(interactive, "plot.interactive")
+        interactive = options().get("plot.interactive", prefer=interactive)
 
         mpl.rcParams.update(mpl.rcParamsDefault)
         plt.rcParams["font.family"] = "monospace"
@@ -83,7 +83,7 @@ class Plot:
         if plt.isinteractive():
             plt.show()
 
-        save_to = options().default_if_null(save_to, "plot.save_to")
+        save_to = options().get("plot.save_to", prefer=save_to)
         if save_to is not None and save_to.endswith(".svg"):
             plt.savefig(save_to, format="svg", bbox_inches="tight")
 
@@ -105,7 +105,7 @@ class Plot:
         Simplifies the `src` prefix interpolating on `k` points, and renders them as monochrome points/curves.
         """
 
-        src = options().default_if_null(src, "transforms.src")
+        src = options().get("transforms.src", prefer=src)
         tmp = options().get("transforms.tmp")
 
         with options().ctx(
@@ -137,8 +137,8 @@ class Plot:
         color=None,
     ):
 
-        src = options().default_if_null(src, "transforms.src")
-        canvas = options().default_if_null(canvas, "plot.canvas_cls")
+        src = options().get("transforms.src", prefer=src)
+        canvas = options().get("plot.canvas_cls", prefer=canvas)
 
         if isinstance(canvas, type):
             # is a class, instantiate it

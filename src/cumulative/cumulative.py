@@ -64,7 +64,7 @@ class Cumulative:
         Return dataframe with `src` as column prefix.
         """
 
-        src = options().default_if_null(src, "transforms.src")
+        src = options().get("transforms.src", prefer=src)
         return self.df[columns_with_prefix(self.df, src)]
 
     def describe(self, src: str | None = None):
@@ -72,7 +72,7 @@ class Cumulative:
         Print basic statistics about the collection in the `src` dimension.
         """
 
-        src = options().default_if_null(src, "transforms.src")
+        src = options().get("transforms.src", prefer=src)
 
         def min_max_diff(values):
             return f"min={values.min()} max={values.max()} diff={values.max() - values.min()}"

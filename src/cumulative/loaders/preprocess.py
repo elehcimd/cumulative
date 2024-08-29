@@ -45,6 +45,7 @@ def melt(
         )
 
     df = df.apply(f, axis=1).explode(["c", "x", "y"])
+
     df["x"] = df["x"].astype(x_dtype)
     df["y"] = df["y"].astype(y_dtype)
 
@@ -62,7 +63,7 @@ def nest(df: pd.DataFrame, dst=None) -> pd.DataFrame:
     - "attr.*": attributes associated to the series (optional)
     """
 
-    dst = options().default_if_null(dst, "transforms.dst")
+    dst = options().get("transforms.dst", prefer=dst)
 
     attributes = [c for c in df.columns if c.startswith("attr.")]
 
