@@ -79,3 +79,21 @@ def nest(df: pd.DataFrame, dst=None) -> pd.DataFrame:
     )
 
     return df
+
+
+def nest_xy(df: pd.DataFrame, name: str = "name", y: str = "y") -> pd.DataFrame:
+    """
+    Transform series in long format to nested format. Expected columns:
+    - `name`: name of the series
+    - `y`: value at a certain offset
+
+    The X column will be deduced by the offset of Y.
+    """
+
+    df = df[[name, y]].rename(columns={name: "name", y: "base.y"})
+    df["base.x"] = df.groupby("name").cumcount()
+    df = df.groupby("name").agg({"base.x": list, "base.y": list}).reset_index()
+    df["base.x"] = df["base.x"].apply(lambda a: np.array(a))
+    df["base.y"] = df["base.y"].apply(lambda a: np.array(a))
+    df = df[["name", "base.x", "base.y"]]
+    return df

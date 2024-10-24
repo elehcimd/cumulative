@@ -2,7 +2,6 @@ from cumulative.datasets.load_wide import load_wide
 
 
 def test_scale_xy():
-
     c = load_wide()
     c.scale(dst="test", kind="xy")
     row = c.df.iloc[0]
@@ -13,7 +12,6 @@ def test_scale_xy():
 
 
 def test_scale_x():
-
     c = load_wide()
     c.scale(dst="test", kind="x")
 
@@ -25,7 +23,6 @@ def test_scale_x():
 
 
 def test_scale_y():
-
     c = load_wide()
     c.scale(dst="test", kind="y")
 

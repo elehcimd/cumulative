@@ -4,7 +4,6 @@ from cumulative.datasets.load_wide import load_wide
 
 
 def test_apply():
-
     c = load_wide()
 
     c.apply(dst="test", func=lambda s: {"z": np.cumsum(s["x"])})

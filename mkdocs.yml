@@ -70,6 +70,7 @@ nav:
   - Tutorial:
     - tutorial/index.md  
     - tutorial/plotting.md
+    - tutorial/datasets.md
   - Become a sponsor: sponsor.md
   - License: license.md
   - Citing: cite.md

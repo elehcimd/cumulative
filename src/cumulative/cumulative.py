@@ -1,9 +1,10 @@
 import logging
 
 import pandas as pd
+from mltraq import Bunch
 
 from cumulative.opts import options
-from cumulative.plot import Plot
+from cumulative.plotting import Plot
 from cumulative.transforms.frame.cluster import Cluster
 from cumulative.transforms.frame.copy import Copy
 from cumulative.transforms.frame.drop import Drop
@@ -31,6 +32,9 @@ class Cumulative:
         """
 
         self.df = df
+
+        # Container for dataset metadata
+        self.meta = Bunch()
 
         # Transforms
         self.scale = Scale(self)

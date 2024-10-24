@@ -4,7 +4,6 @@ from cumulative.datasets.load_wide import load_wide
 
 
 def test_interpolate_interp():
-
     c = load_wide()
     c.interpolate(num=3, dst="int")
     row = c.df.iloc[0]
@@ -14,7 +13,6 @@ def test_interpolate_interp():
 
 
 def test_interpolate_pchip():
-
     c = load_wide().cumsum()
     c.interpolate(method="pchip", num=3, dst="int")
     row = c.df.iloc[0]
@@ -23,7 +21,6 @@ def test_interpolate_pchip():
 
 
 def test_interpolate_pchipp():
-
     c = load_wide().cumsum()
     c.interpolate(method="pchipp", num=3, dst="int")
     row = c.df.iloc[0]

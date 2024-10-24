@@ -16,6 +16,8 @@ To get started, follow these steps:
 
     ```
     cd cumulative
+    pyenv local 3.10
+    poetry env use $(pyenv which python)
     poetry install --all-extras --sync
     ```    
 4. Run the tests:

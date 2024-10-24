@@ -26,7 +26,7 @@ def local_python(pathname: str) -> str:
         data_f = f"def local_python_func():\n{func_code}\nlocal_python_func()"
 
     f = io.StringIO()
-    with options().ctx({"plot.interactive": False, "plot.save_to": f"{pathname}.svg"}):
+    with options().ctx({"plot.ctx.default.interactive_mode": False, "plot.ctx.default.savefig_svg": f"{pathname}.svg"}):
         with redirect_stdout(f):
             exec(data_f)  # noqa
     return f.getvalue()

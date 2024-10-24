@@ -8,13 +8,24 @@ class Options(BaseOptions):
         "transforms": {
             "src": "base",
             "dst": "base",
-            "drop": True,
             "tmp": "temp",
+            "drop": True,
         },
         "plot": {
-            "save_to": None,
-            "interactive": True,
-            "canvas_cls": None,
+            # Defaults used by collection visualizers
+            "color": "black",
+            "colormap": "cool",
+            "ctx": {
+                # Templates for mltraq.utils.plotting.plot_ctx(...) parameters
+                "default": {
+                    "spines_bottomleft": True,
+                    "x_label": "X",
+                    "y_label": "Y",
+                    "figsize": (3, 3),
+                    "facecolor": "white",
+                },
+                "whiteboard": {"show_axes": False, "figsize": (3, 3)},
+            },
         },
         "warnings": {"disable": False},
         "doc": {"url": "https://elehcimd.github.io/cumulative/"},
